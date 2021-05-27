@@ -4,6 +4,7 @@ import me.dzze.gameframework.commands.*;
 import me.dzze.gameframework.database.Database;
 import me.dzze.gameframework.database.DatabaseGetter;
 import me.dzze.gameframework.listeners.*;
+import me.dzze.gameframework.managers.GeneratorManager;
 import me.dzze.gameframework.managers.TeamManager;
 import me.dzze.gameframework.utils.MessageUtils;
 import me.dzze.gameframework.utils.Teams;
@@ -49,7 +50,7 @@ public class Main extends JavaPlugin {
         BWCommand.registerSubCommand(new SetSpawnFourCommand(this));
         BWCommand.registerSubCommand(new SetSpawnThreeCommand(this));
         BWCommand.registerSubCommand(new SetSpawnTwoCommand(this));
-        BWCommand.registerSubCommand(new ForceStartCommand(this));
+        BWCommand.registerSubCommand(new ForceStartCommand(this, new GeneratorManager(this)));
         BWCommand.registerSubCommand(new ForceStopCommand(this));
         BWCommand.registerSubCommand(new SetSpawnOneCommand(this));
         BWCommand.registerSubCommand(new SetIronOne(this));

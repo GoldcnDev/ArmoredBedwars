@@ -3,6 +3,7 @@ package me.dzze.gameframework.listeners;
 import me.dzze.gameframework.Main;
 import me.dzze.gameframework.commands.ForceStartCommand;
 import me.dzze.gameframework.managers.GameManager;
+import me.dzze.gameframework.managers.GeneratorManager;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
@@ -15,7 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class RespawnListener extends ForceStartCommand implements Listener {
      private Main plugin;
      public RespawnListener(Main plugin){
-         super(plugin);
+         super(plugin, new GeneratorManager(plugin));
          this.plugin = plugin;
      }
      

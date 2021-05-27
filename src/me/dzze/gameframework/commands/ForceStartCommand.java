@@ -2,6 +2,7 @@ package me.dzze.gameframework.commands;
 
 import me.dzze.gameframework.Main;
 import me.dzze.gameframework.managers.GameManager;
+import me.dzze.gameframework.managers.GeneratorManager;
 import me.dzze.gameframework.managers.TeamManager;
 import me.dzze.gameframework.utils.MessageUtils;
 import me.dzze.gameframework.utils.Teams;
@@ -17,9 +18,11 @@ import java.util.Random;
 
 public class ForceStartCommand implements SubCommand {
     Main main;
+    GeneratorManager gm;
    // RespawnListener respawnListener;
-    public ForceStartCommand(Main main){
+    public ForceStartCommand(Main main, GeneratorManager gm){
         this.main = main;
+        this.gm = gm;
     }
     public static String map;
     public static HashMap<Player, Integer> team = new HashMap<>();
@@ -29,7 +32,7 @@ public class ForceStartCommand implements SubCommand {
         MessageUtils.message(sender, "&3&lBED&b&lWARS &8| &aStarted by an administrator.");
         for (Player players : Bukkit.getOnlinePlayers()) {
             Random random = new Random();
-            int r = random.nextInt(3 - 1 + 1) + 1;
+            int r = random.nextInt(4 - 1 + 1) + 1;
             team.put(players, r);
             TeamManager.setTeam(players);
             main.createBoard(players);
@@ -94,7 +97,8 @@ public class ForceStartCommand implements SubCommand {
                             main.getConfig().getDouble("Spawn4.y"), main.getConfig().getDouble("Spawn4.z")));
 
                 }
-
+                gm.killGens();
+                gm.startGens();
 
 
 
