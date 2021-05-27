@@ -50,13 +50,6 @@ public class ChatListener extends SpecManager implements Listener {
                     online.spigot().sendMessage(redChat);
                 }
             }
-            if(TeamManager.getTeam(p) == Teams.GREEN){
-                e.setCancelled(true);
-                TextComponent greenChat = new TextComponent(MessageUtils.component("&a&lGREEN " + newname.trim() + " &8» &r" + e.getMessage()));
-                for(Player online: Bukkit.getOnlinePlayers()){
-                    online.spigot().sendMessage(greenChat);
-                }
-            }
             if(TeamManager.getTeam(p) == Teams.PURPLE){
                 e.setCancelled(true);
                 TextComponent purpleChat = new TextComponent(MessageUtils.component("&5&lPURPLE " + newname.trim() + " &8» &r" + e.getMessage()));

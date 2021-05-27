@@ -33,11 +33,6 @@ public class TeamManager implements Listener {
                     team.put(p, Teams.PURPLE);
                 }
             }
-            if(team.get(online) != Teams.GREEN){
-                if(ForceStartCommand.team.get(p) == 0){
-                    team.put(p, Teams.GREEN);
-                }
-            }
         }
     }
 

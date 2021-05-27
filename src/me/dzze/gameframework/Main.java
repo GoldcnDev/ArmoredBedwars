@@ -51,6 +51,11 @@ public class Main extends JavaPlugin {
         BWCommand.registerSubCommand(new SetSpawnTwoCommand(this));
         BWCommand.registerSubCommand(new ForceStartCommand(this));
         BWCommand.registerSubCommand(new ForceStopCommand(this));
+        BWCommand.registerSubCommand(new SetSpawnOneCommand(this));
+        BWCommand.registerSubCommand(new SetIronOne(this));
+        BWCommand.registerSubCommand(new SetIronTwo(this));
+        BWCommand.registerSubCommand(new SetIronThree(this));
+        BWCommand.registerSubCommand(new SetIronFour(this));
        // Bukkit.getPluginCommand("connect").setExecutor(new ConnectCommand());
         for(Player online: Bukkit.getOnlinePlayers()){
             createBoard(online);
@@ -84,11 +89,6 @@ public class Main extends JavaPlugin {
         if(TeamManager.getTeam(player) == Teams.RED){
             Score score3 = obj.getScore(MessageUtils.color("&3&lTeam &8&l» &r" +
                     "&c&lRED"));
-            score3.setScore(3);
-        }
-        if(TeamManager.getTeam(player) == Teams.GREEN){
-            Score score3 = obj.getScore(MessageUtils.color("&3&lTeam &8&l» &r" +
-                    "&a&lGREEN"));
             score3.setScore(3);
         }
         if(TeamManager.getTeam(player) == Teams.WHITE){

@@ -4,6 +4,7 @@ import me.dzze.gameframework.Main;
 import me.dzze.gameframework.managers.GameManager;
 import me.dzze.gameframework.managers.TeamManager;
 import me.dzze.gameframework.utils.MessageUtils;
+import me.dzze.gameframework.utils.Teams;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -28,11 +29,12 @@ public class ForceStartCommand implements SubCommand {
         MessageUtils.message(sender, "&3&lBED&b&lWARS &8| &aStarted by an administrator.");
         for (Player players : Bukkit.getOnlinePlayers()) {
             Random random = new Random();
-            int r = random.nextInt(4 - 1 + 1) + 1;
+            int r = random.nextInt(3 - 1 + 1) + 1;
             team.put(players, r);
             TeamManager.setTeam(players);
             main.createBoard(players);
             GameManager.gameRunning = true;
+            Bukkit.getWorld("Boletum").setAutoSave(false);
             if(players.hasPotionEffect(PotionEffectType.INVISIBILITY)){
                players.removePotionEffect(PotionEffectType.INVISIBILITY);
             }
@@ -47,8 +49,8 @@ public class ForceStartCommand implements SubCommand {
             if(ArchaicVoteCommand.votes.size() < TrainlandVoteCommand.votes.size()){
                 players.teleport(Bukkit.getWorld("world").getSpawnLocation());
                 map = "trainland";
-            }
-            if(ArchaicVoteCommand.votes.size() == TrainlandVoteCommand.votes.size()){
+            } **/
+           /** if(ArchaicVoteCommand.votes.size() == TrainlandVoteCommand.votes.size()){
                 if(spawn.get(players) == spawn.get(players)){
                     spawn.put(players, random.nextInt(4 - 1 + 1) + 1);
                 }
@@ -70,8 +72,33 @@ public class ForceStartCommand implements SubCommand {
                 }
 
                 map = "trainland";
-            }
-            **/
+            } **/
+
+                if(TeamManager.getTeam(players) == Teams.BLUE){
+                    players.teleport(   new Location(Bukkit.getWorld(main.getConfig().getString("Spawn1.world")), main.getConfig().getDouble("Spawn1.x"),
+                            main.getConfig().getDouble("Spawn1.y"), main.getConfig().getDouble("Spawn1.z")));
+                }
+
+                if(TeamManager.getTeam(players) == Teams.RED){
+                    players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn2.world")), main.getConfig().getDouble("Spawn2.x"),
+                            main.getConfig().getDouble("Spawn2.y"), main.getConfig().getDouble("Spawn2.z")));
+                }
+
+                if(TeamManager.getTeam(players) == Teams.WHITE){
+                    players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn3.world")), main.getConfig().getDouble("Spawn3.x"),
+                            main.getConfig().getDouble("Spawn3.y"), main.getConfig().getDouble("Spawn3.z")));
+                }
+
+                if(TeamManager.getTeam(players) == Teams.PURPLE){
+                    players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn4.world")), main.getConfig().getDouble("Spawn4.x"),
+                            main.getConfig().getDouble("Spawn4.y"), main.getConfig().getDouble("Spawn4.z")));
+
+                }
+
+
+
+
+
             players.getInventory().clear();
             players.playSound(players.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 7, 1);
 
