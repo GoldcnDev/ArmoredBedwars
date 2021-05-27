@@ -1,0 +1,17 @@
+name: ArmoredBedWars
+description: Testing out Database
+
+main: me.dzze.gameframework.Main
+api-version: "1.13"
+version: ${version}
+softdepend:
+  - PlaceholderAPI
+commands:
+  bedwars:
+    description: Base command for administrators.
+  setpoints:
+    description: Set points.
+  resetpoints:
+    description: Evident.
+  connect:
+    description: Connect.
