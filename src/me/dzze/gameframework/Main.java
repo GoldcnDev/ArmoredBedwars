@@ -57,6 +57,8 @@ public class Main extends JavaPlugin {
         BWCommand.registerSubCommand(new SetIronTwo(this));
         BWCommand.registerSubCommand(new SetIronThree(this));
         BWCommand.registerSubCommand(new SetIronFour(this));
+        BWCommand.registerSubCommand(new SetEm1(this));
+        BWCommand.registerSubCommand(new SetEm2(this));
        // Bukkit.getPluginCommand("connect").setExecutor(new ConnectCommand());
         for(Player online: Bukkit.getOnlinePlayers()){
             createBoard(online);

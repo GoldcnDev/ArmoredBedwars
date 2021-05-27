@@ -60,30 +60,6 @@ public class GeneratorManager {
         i4.setCustomName(MessageUtils.color("&f&lIRON GEN"));
         i4.setCustomNameVisible(true);
         i4.setVisible(false);
-        ArmorStand dia2 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(new Location(Bukkit.getWorld(main.getConfig().getString("Iron4.world")), main.getConfig().getDouble("Iron4.x"),
-                main.getConfig().getDouble("Iron4.y"), main.getConfig().getDouble("Iron4.z")), EntityType.ARMOR_STAND);
-        i4.setGravity(false);
-        i4.setCanPickupItems(false);
-        i4.setInvulnerable(true);
-        i4.setCustomName(MessageUtils.color("&f&lIRON GEN"));
-        i4.setCustomNameVisible(true);
-        i4.setVisible(false);
-        ArmorStand dia3 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(new Location(Bukkit.getWorld(main.getConfig().getString("Iron4.world")), main.getConfig().getDouble("Iron4.x"),
-                main.getConfig().getDouble("Iron4.y"), main.getConfig().getDouble("Iron4.z")), EntityType.ARMOR_STAND);
-        i4.setGravity(false);
-        i4.setCanPickupItems(false);
-        i4.setInvulnerable(true);
-        i4.setCustomName(MessageUtils.color("&f&lIRON GEN"));
-        i4.setCustomNameVisible(true);
-        i4.setVisible(false);
-        ArmorStand dia4 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(new Location(Bukkit.getWorld(main.getConfig().getString("Iron4.world")), main.getConfig().getDouble("Iron4.x"),
-                main.getConfig().getDouble("Iron4.y"), main.getConfig().getDouble("Iron4.z")), EntityType.ARMOR_STAND);
-        i4.setGravity(false);
-        i4.setCanPickupItems(false);
-        i4.setInvulnerable(true);
-        i4.setCustomName(MessageUtils.color("&f&lIRON GEN"));
-        i4.setCustomNameVisible(true);
-        i4.setVisible(false);
 
         ArmorStand em1 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(new Location(Bukkit.getWorld(main.getConfig().getString("Em1.world")), main.getConfig().getDouble("Em1.x"),
                 main.getConfig().getDouble("Em1.y"), main.getConfig().getDouble("Em1.z")), EntityType.ARMOR_STAND);
