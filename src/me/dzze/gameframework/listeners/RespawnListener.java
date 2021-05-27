@@ -40,12 +40,7 @@ public class RespawnListener extends ForceStartCommand implements Listener {
                     ((Player)e.getEntity()).setHealth(((Player)e.getEntity()).getAttribute(Attribute.GENERIC_MAX_HEALTH).getDefaultValue());
                     createSpiralAroundPlayer(((Player) e.getEntity()));
                 }, 0L, 100L);
-                if(ForceStartCommand.map == "archaic"){
-                        e.getEntity().teleport(new Location(Bukkit.getWorld(plugin.getConfig().getString("Spawn5.world")), plugin.getConfig().getDouble("Spawn5.x"),
-                                plugin.getConfig().getDouble("Spawn5.y"), plugin.getConfig().getDouble("Spawn5.z")));
-                } if(ForceStartCommand.map == "trainland"){
-                    e.getEntity().teleport(Bukkit.getWorld("world").getSpawnLocation());
-                }
+
             }
         }
     }

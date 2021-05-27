@@ -41,9 +41,10 @@ public class ForceStartCommand implements SubCommand {
             if(players.hasPotionEffect(PotionEffectType.INVISIBILITY)){
                players.removePotionEffect(PotionEffectType.INVISIBILITY);
             }
-            players.setGameMode(GameMode.ADVENTURE);
+            players.setGameMode(GameMode.SURVIVAL);
             players.sendTitle(MessageUtils.color("&3&lBED&b&lWARS &a&l2.0"), MessageUtils.color("&eAn &4armored&8.pro &ecreation"), 10, 60, 10);
             main.getServer().getScheduler().cancelTasks(main);
+            players.getInventory().setItem(0, new ItemStack(Material.WOODEN_SWORD, 1));
            /** if(ArchaicVoteCommand.votes.size() > TrainlandVoteCommand.votes.size()){
                 players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn5.world")), main.getConfig().getDouble("Spawn5.x"),
                         main.getConfig().getDouble("Spawn5.y"), main.getConfig().getDouble("Spawn5.z")));
