@@ -24,7 +24,7 @@ public class SetBedRed implements SubCommand {
         main.getConfig().set("Red.z", p.getLocation().getZ());
         main.saveConfig();
         settingBed.add(p);
-        p.sendMessage(MessageUtils.color("&6BEDWARS &8| &aSet red bed location."));
+        p.sendMessage(MessageUtils.color("&6BEDWARS &8| &aPlease break the Red bed."));
     }
 
     @Override
