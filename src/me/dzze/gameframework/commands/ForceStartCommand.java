@@ -30,6 +30,7 @@ public class ForceStartCommand implements SubCommand {
     @Override
     public void execute(CommandSender sender, String label, String[] args) {
         MessageUtils.message(sender, "&3&lBED&b&lWARS &8| &aStarted by an administrator.");
+        Bukkit.getWorld("Boletum").setAutoSave(false);
         for (Player players : Bukkit.getOnlinePlayers()) {
             Random random = new Random();
             int r = random.nextInt(4 - 1 + 1) + 1;
@@ -38,8 +39,9 @@ public class ForceStartCommand implements SubCommand {
             main.createBoard(players);
             GameManager.gameRunning = true;
             Bukkit.getWorld("Boletum").setAutoSave(false);
-            if(players.hasPotionEffect(PotionEffectType.INVISIBILITY)){
+            if(players.hasPotionEffect(PotionEffectType.INVISIBILITY) || players.hasPotionEffect(PotionEffectType.JUMP)){
                players.removePotionEffect(PotionEffectType.INVISIBILITY);
+               players.removePotionEffect(PotionEffectType.JUMP);
             }
             players.setGameMode(GameMode.SURVIVAL);
             players.sendTitle(MessageUtils.color("&3&lBED&b&lWARS &a&l2.0"), MessageUtils.color("&eAn &4armored&8.pro &ecreation"), 10, 60, 10);
