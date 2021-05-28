@@ -9,12 +9,14 @@ import me.dzze.gameframework.utils.MessageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.data.type.Bed;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.ItemSpawnEvent;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 
 public class BedListener implements Listener {
@@ -24,14 +26,14 @@ public class BedListener implements Listener {
         this.main = main;
     }
 
-
-    Bed red;
-    Bed blue;
-    Bed purple;
-    Bed white;
     @EventHandler
     public void onBreak(BlockBreakEvent e){
         Player p = e.getPlayer();
+        AtomicReference<Block> blue = new AtomicReference<>();
+        AtomicReference<Block> red = new AtomicReference<>();
+        AtomicReference<Block> purple = new AtomicReference<>();
+        AtomicReference<Block> white = new AtomicReference<>();
+
         if(SetBedBlue.settingBed.contains(p)){
             e.setCancelled(true);
             main.getConfig().set("Blue.world", p.getWorld().getName());
@@ -40,7 +42,7 @@ public class BedListener implements Listener {
             main.getConfig().set("Blue.z", p.getLocation().getZ());
             main.saveConfig();
             SetBedBlue.settingBed.remove(p);
-            blue = (Bed) e.getBlock();
+            blue.set(e.getBlock());
             p.sendMessage(MessageUtils.color("&3&lB&b&lW &8| &aSet the location of the Blue bed."));
         }
         if(SetBedWhite.settingBed.contains(p)){
@@ -51,7 +53,7 @@ public class BedListener implements Listener {
             main.getConfig().set("White.z", p.getLocation().getZ());
             main.saveConfig();
             SetBedWhite.settingBed.remove(p);
-            white = (Bed) e.getBlock();
+            white.set(e.getBlock());
             p.sendMessage(MessageUtils.color("&3&lB&b&lW &8| &aSet the location of the White bed."));
         }
         if(SetBedRed.settingBed.contains(p)){
@@ -62,7 +64,7 @@ public class BedListener implements Listener {
             main.getConfig().set("Red.z", p.getLocation().getZ());
             main.saveConfig();
             SetBedRed.settingBed.remove(p);
-            red = (Bed) e.getBlock();
+            red.set(e.getBlock());
             MessageUtils.message(p, "&3&lB&b&lW &8| &aSet the location of the Red bed.");
         }
         if(SetBedPurple.settingBed.contains(p)){
@@ -73,27 +75,23 @@ public class BedListener implements Listener {
             main.getConfig().set("Purple.z", p.getLocation().getZ());
             main.saveConfig();
             SetBedPurple.settingBed.remove(p);
-            purple = (Bed) e.getBlock();
+            purple.set(e.getBlock());
             MessageUtils.message(p, "&3&lB&b&lW &8| &aSet the location of the Purple bed.");
         }
 
         if(e.getBlock().getType().equals(Material.RED_BED)){
-            if(e.getBlock() == purple){
+            if(e.getBlock().getLocation().getZ() == purple.get().getLocation().getZ()+1 || e.getBlock().getLocation().getZ() == purple.get().getLocation().getZ()-1
+            || e.getBlock().getLocation().getZ() == purple.get().getLocation().getZ()){
                 Bukkit.getServer().broadcastMessage(MessageUtils.color("&3&lB&B&lW &8| &cThe &5&lPURPLE &cbed has been destroyed!"));
                 e.setDropItems(false);
             }
-            if(e.getBlock() == red){
-                Bukkit.getServer().broadcastMessage(MessageUtils.color("&3&lB&B&lW &8| &cThe &4&lRED &cbed has been destroyed!"));
+            if(e.getBlock().getLocation().getZ() == red.get().getLocation().getZ()+1 || e.getBlock().getLocation().getZ() == red.get().getLocation().getZ()-1
+            || e.getBlock().getLocation().getZ() == red.get().getLocation().getZ()){
+                Bukkit.getServer().broadcastMessage(MessageUtils.color("&3&lB&B&lW &8| &cThe &c&lRED &cbed has been destroyed!"));
                 e.setDropItems(false);
             }
-            if(e.getBlock() == blue){
-                Bukkit.getServer().broadcastMessage(MessageUtils.color("&3&lB&B&lW &8| &cThe &9&lBLUE &cbed has been destroyed!"));
-                e.setDropItems(false);
-            }
-            if(e.getBlock() == white){
-                Bukkit.getServer().broadcastMessage(MessageUtils.color("&3&lB&B&lW &8| &cThe &f&lWHITE &cbed has been destroyed!"));
-                e.setDropItems(false);
-            }
+
+
         }
 
     }
@@ -102,6 +100,9 @@ public class BedListener implements Listener {
     public void itemSpawn(ItemSpawnEvent e) {
         if (e.getEntity().getItemStack().getType() ==Material.RED_BED) e.setCancelled(true);
     }
+
+
+
 
 
 
