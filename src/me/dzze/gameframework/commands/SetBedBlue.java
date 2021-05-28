@@ -14,6 +14,7 @@ public class SetBedBlue implements SubCommand {
         this.main = main;
     }
     public static Set<Player> settingBed = new HashSet<>();
+    public static Set<Player> settingBed2 = new HashSet<>();
 
     @Override
     public void execute(CommandSender sender, String label, String[] args) {
@@ -24,6 +25,7 @@ public class SetBedBlue implements SubCommand {
         main.getConfig().set("Blue.z", p.getLocation().getZ());
         main.saveConfig();
         settingBed.add(p);
+        settingBed2.add(p);
         p.sendMessage(MessageUtils.color("&6BEDWARS &8| &aPlease break the Blue bed."));
     }
 

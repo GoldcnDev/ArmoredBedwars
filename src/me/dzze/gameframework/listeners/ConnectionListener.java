@@ -53,6 +53,7 @@ public class ConnectionListener extends SpecManager implements Listener {
                 plugin.data.createPlayer(p);
             }
             for(Player online: Bukkit.getOnlinePlayers()){
+                online.removePotionEffect(PotionEffectType.JUMP);
                 online.teleport(Bukkit.getWorld("spawn").getSpawnLocation());
                     online.sendMessage(MessageUtils.color("&6&lVote for a map!"));
                     TextComponent archaic = new TextComponent(MessageUtils.component("&71. &aArchaic &7[VOTE]"));
