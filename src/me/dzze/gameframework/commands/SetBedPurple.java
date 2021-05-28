@@ -18,12 +18,8 @@ public class SetBedPurple implements SubCommand {
     @Override
     public void execute(CommandSender sender, String label, String[] args) {
         Player p = (Player) sender;
-        main.getConfig().set("Purple.world", p.getWorld().getName());
-        main.getConfig().set("Purple.x", p.getLocation().getX());
-        main.getConfig().set("Purple.y", p.getLocation().getY());
-        main.getConfig().set("Purple.z", p.getLocation().getZ());
-        main.saveConfig();
-        p.sendMessage(MessageUtils.color("&6BEDWARS &8| &aSet purple bed location."));
+        settingBed.add(p);
+        p.sendMessage(MessageUtils.color("&6BEDWARS &8| &aPlease break the Purple bed."));
     }
 
     @Override

@@ -39,6 +39,7 @@ public class Main extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ChatListener(this), this);
         Bukkit.getPluginManager().registerEvents(new CompassListener(), this);
         Bukkit.getPluginManager().registerEvents(new TeamManager(), this);
+        Bukkit.getPluginManager().registerEvents(new BedListener(this), this);
         setInstance(this);
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new BungeeListener());
@@ -59,6 +60,10 @@ public class Main extends JavaPlugin {
         BWCommand.registerSubCommand(new SetIronFour(this));
         BWCommand.registerSubCommand(new SetEm1(this));
         BWCommand.registerSubCommand(new SetEm2(this));
+        BWCommand.registerSubCommand(new SetBedBlue(this));
+        BWCommand.registerSubCommand(new SetBedPurple(this));
+        BWCommand.registerSubCommand(new SetBedRed(this));
+        BWCommand.registerSubCommand(new SetBedWhite(this));
        // Bukkit.getPluginCommand("connect").setExecutor(new ConnectCommand());
         for(Player online: Bukkit.getOnlinePlayers()){
             createBoard(online);

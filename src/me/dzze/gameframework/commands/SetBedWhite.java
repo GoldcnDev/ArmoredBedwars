@@ -13,7 +13,7 @@ public class SetBedWhite implements SubCommand {
     public SetBedWhite(Main main){
         this.main = main;
     }
-    public Set<Player> settingBed = new HashSet<>();
+    public static Set<Player> settingBed = new HashSet<>();
 
 
     @Override
@@ -24,6 +24,7 @@ public class SetBedWhite implements SubCommand {
         main.getConfig().set("White.y", p.getLocation().getY());
         main.getConfig().set("White.z", p.getLocation().getZ());
         main.saveConfig();
+        settingBed.add(p);
         p.sendMessage(MessageUtils.color("&6BEDWARS &8| &aSet white bed location."));
     }
 
