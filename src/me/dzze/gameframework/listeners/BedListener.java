@@ -77,7 +77,7 @@ public class BedListener implements Listener {
             MessageUtils.message(p, "&3&lB&b&lW &8| &aSet the location of the Purple bed.");
         }
 
-        if(e.getBlock().getType() == Material.RED_BED){
+        if(e.getBlock().getType() == Material.LEGACY_BED_BLOCK){
             if(e.getBlock() == purple){
                     Bukkit.getServer().broadcastMessage(MessageUtils.color("&3&lB&B&lW &8| &cThe &5&lPURPLE &cbed has been destroyed!"));
                     e.setDropItems(false);
