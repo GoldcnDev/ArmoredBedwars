@@ -64,6 +64,7 @@ public class BedListener implements Listener {
             SetBedPurple.settingBed.remove(p);
             MessageUtils.message(p, "&3&lB&b&lW &8| &aSet the location of the Purple bed.");
         }
+        /**
         if(e.getBlock().getLocation() == new Location(Bukkit.getWorld(main.getConfig().getString("Purple.world")), main.getConfig().getDouble("Purple.x"),
                 main.getConfig().getDouble("Purple.y"), main.getConfig().getDouble("Purple.z"))){
             Bukkit.getServer().broadcastMessage(MessageUtils.color("&3&lB&B&lW &8| &cThe &5&lPURPLE &cbed has been destroyed!"));
@@ -84,6 +85,7 @@ public class BedListener implements Listener {
             Bukkit.getServer().broadcastMessage(MessageUtils.color("&3&lB&B&lW &8| &cThe &9&lBLUE &cbed has been destroyed!"));
             e.setDropItems(false);
         }
+         **/
     }
 
 
