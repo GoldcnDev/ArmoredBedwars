@@ -1,4 +1,5 @@
 plugins {
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
     id 'java'
 }
 
@@ -6,6 +7,7 @@ group 'net.savagedev'
 version '1.0.0-SNAPSHOT'
 
 repositories {
+    mavenCentral()
     mavenLocal()
     maven{
         url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots'
@@ -13,10 +15,12 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
+    shadow 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
+    implementation 'com.zaxxer:HikariCP:3.4.5'
 }
 
 processResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
     from(sourceSets.main.resources.srcDirs) {
         expand 'version': project.version
         include 'plugin.yml'

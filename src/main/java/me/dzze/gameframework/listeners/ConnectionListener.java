@@ -6,9 +6,6 @@ import me.dzze.gameframework.managers.GameManager;
 import me.dzze.gameframework.managers.SpecManager;
 import me.dzze.gameframework.utils.MessageUtils;
 import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -24,58 +21,63 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.UUID;
+
 public class ConnectionListener extends SpecManager implements Listener {
     int onlineCount = Bukkit.getServer().getOnlinePlayers().size();
     Main plugin;
-    public ConnectionListener(Main plugin){
+
+    public ConnectionListener(Main plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler
     public void on(AsyncPlayerPreLoginEvent e) {
-       plugin.data.getPoints(e.getUniqueId());
+        final UUID uuid = e.getUniqueId();
+        if (!plugin.data.exists(uuid).join()) {
+            plugin.data.createPlayer(e.getName(), uuid).join();
+        }
+        // Any reason for this? I'm not following...
+        // plugin.data.getPoints(e.getUniqueId()).join();
     }
 
     @EventHandler
     public void on(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         String name = p.getDisplayName();
-        String newname = name.substring(name.indexOf("|")+1);
-        if(!GameManager.gameRunning){
-            if(p.hasPotionEffect(PotionEffectType.INVISIBILITY)){
+        String newname = name.substring(name.indexOf("|") + 1);
+        if (!GameManager.gameRunning) {
+            if (p.hasPotionEffect(PotionEffectType.INVISIBILITY)) {
                 p.removePotionEffect(PotionEffectType.INVISIBILITY);
             }
             p.getInventory().clear();
             onlineCount++;
-            e.setJoinMessage(MessageUtils.color(  newname.trim() + " &dwants to sleep! &6(&f" + onlineCount + "&6/&f12&6)"));
+            e.setJoinMessage(MessageUtils.color(newname.trim() + " &dwants to sleep! &6(&f" + onlineCount + "&6/&f12&6)"));
             //p.teleport(Bukkit.getWorld("spawn").getSpawnLocation());
-            if(!plugin.data.exists(p.getUniqueId())){
-                plugin.data.createPlayer(p);
-            }
-            for(Player online: Bukkit.getOnlinePlayers()){
+            for (Player online : Bukkit.getOnlinePlayers()) {
                 online.removePotionEffect(PotionEffectType.JUMP);
                 online.teleport(Bukkit.getWorld("spawn").getSpawnLocation());
-                  /**  online.sendMessage(MessageUtils.color("&6&lVote for a map!"));
-                    TextComponent archaic = new TextComponent(MessageUtils.component("&71. &aArchaic &7[VOTE]"));
-                    archaic.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(MessageUtils.component("&aClick to vote for Archaic.")).create()));
-                    archaic.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/oitc archaic"));
-                    TextComponent trainland = new TextComponent(MessageUtils.component("&72. &aTrainland &7[VOTE]"));
-                    trainland.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(MessageUtils.component("&aClick to vote for Trainland.")).create()));
-                    trainland.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/oitc trainland"));
-                    online.spigot().sendMessage(archaic);
-                    online.spigot().sendMessage(trainland);
-                   **/
+                /**  online.sendMessage(MessageUtils.color("&6&lVote for a map!"));
+                 TextComponent archaic = new TextComponent(MessageUtils.component("&71. &aArchaic &7[VOTE]"));
+                 archaic.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(MessageUtils.component("&aClick to vote for Archaic.")).create()));
+                 archaic.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/oitc archaic"));
+                 TextComponent trainland = new TextComponent(MessageUtils.component("&72. &aTrainland &7[VOTE]"));
+                 trainland.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(MessageUtils.component("&aClick to vote for Trainland.")).create()));
+                 trainland.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/oitc trainland"));
+                 online.spigot().sendMessage(archaic);
+                 online.spigot().sendMessage(trainland);
+                 **/
                 plugin.createBoard(online);
             }
-            if(onlineCount < 4){
+            if (onlineCount < 4) {
                 Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
                     p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(TextComponent.fromLegacyText(MessageUtils.color("&aWaiting for more players..."))));
                 }, 0L, 0L);
-            }
-            else {
+            } else {
                 plugin.getServer().getScheduler().cancelTasks(plugin);
                 BukkitRunnable countdown = new BukkitRunnable() {
                     int time = 15;
+
                     @Override
                     public void run() {
                         if (this.time > 0) {
@@ -94,11 +96,11 @@ public class ConnectionListener extends SpecManager implements Listener {
                 };
                 countdown.runTaskTimer(plugin, 0L, 20L);
             }
-        } else if(GameManager.gameRunning) {
-            if(ForceStartCommand.map == "trainland"){
+        } else if (GameManager.gameRunning) {
+            if (ForceStartCommand.map == "trainland") {
                 p.teleport(Bukkit.getWorld("world").getSpawnLocation());
             }
-            if(ForceStartCommand.map == "archaic"){
+            if (ForceStartCommand.map == "archaic") {
                 p.teleport(new Location(Bukkit.getWorld(plugin.getConfig().getString("Spawn5.world")), plugin.getConfig().getDouble("Spawn5.x"),
                         plugin.getConfig().getDouble("Spawn.y"), plugin.getConfig().getDouble("Spawn5.z")));
             }
@@ -113,23 +115,23 @@ public class ConnectionListener extends SpecManager implements Listener {
             giveSpecItem(p);
         }
 
-        }
-       
-        // TODO: Send any relevant join messages...
+    }
+
+    // TODO: Send any relevant join messages...
 
 
     @EventHandler
     public void on(PlayerQuitEvent e) {
         Player p = e.getPlayer();
         String name = p.getDisplayName();
-        String newname = name.substring(name.indexOf("|")+1);
+        String newname = name.substring(name.indexOf("|") + 1);
         onlineCount--;
-        if(onlineCount<4){
+        if (onlineCount < 4) {
             plugin.getServer().getScheduler().cancelTasks(plugin);
             Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
                 p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(TextComponent.fromLegacyText(MessageUtils.color("&aWaiting for more players..."))));
             }, 0L, 0L);
         }
-        e.setQuitMessage(MessageUtils.color(  newname.trim() + " &ddoesn't want to sleep anymore. &6(&f" + onlineCount + "&6/&f10&6)"));
+        e.setQuitMessage(MessageUtils.color(newname.trim() + " &ddoesn't want to sleep anymore. &6(&f" + onlineCount + "&6/&f10&6)"));
     }
 }

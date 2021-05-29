@@ -1,123 +1,125 @@
 package me.dzze.gameframework.database;
 
 import me.dzze.gameframework.Main;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
 
 public class DatabaseGetter {
 
     private Main plugin;
-    public DatabaseGetter(Main plugin){
+
+    public DatabaseGetter(Main plugin) {
         this.plugin = plugin;
     }
 
-    public void createTable(){
-        PreparedStatement ps;
-        try{
-            ps = plugin.db.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS points "
-            + "(NAME VARCHAR(100),UUID VARCHAR(100),POINTS INT(100),PRIMARY KEY (NAME))");
-            ps.executeUpdate();
+    public void createTable() {
+        try (final PreparedStatement statement = this.plugin.db.getConnection()
+                .prepareStatement("CREATE TABLE IF NOT EXISTS points (NAME VARCHAR(100),UUID VARCHAR(100),POINTS INT(100),PRIMARY KEY (NAME))")) {
+            statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void createPlayer(Player player){
-       try{
-           UUID uuid = player.getUniqueId();
-           if(!exists(uuid)){
-               PreparedStatement ps2 = plugin.db.getConnection().prepareStatement("INSERT IGNORE INTO points " +
-                       "(NAME,UUID) VALUES (?,?)");
-               ps2.setString(1, player.getName());
-               ps2.setString(2, uuid.toString());
-               ps2.executeUpdate();
-               return;
-           }
-       } catch (SQLException e){
-           e.printStackTrace();
-       }
+    public CompletableFuture<Void> createPlayer(String name, UUID uuid) {
+        return CompletableFuture.runAsync(() -> {
+            if (!this.exists(uuid).join()) {
+                try (final PreparedStatement statement = this.plugin.db.getConnection().prepareStatement("INSERT IGNORE INTO points (NAME,UUID) VALUES (?,?)")) {
+                    statement.setString(1, name);
+                    statement.setString(2, uuid.toString());
+                    statement.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
-    public boolean exists(UUID uuid){
-        try {
-            PreparedStatement ps = plugin.db.getConnection().prepareStatement("SELECT * FROM points WHERE UUID=?");
-            ps.setString(1, uuid.toString());
-
-            ResultSet results = ps.executeQuery();
-            if(results.next()){
-                return true;
+    public CompletableFuture<Boolean> exists(UUID uuid) {
+        return this.makeFuture(() -> {
+            try (final PreparedStatement statement = this.plugin.db.getConnection().prepareStatement("SELECT * FROM points WHERE UUID=?")) {
+                statement.setString(1, uuid.toString());
+                try (final ResultSet result = statement.executeQuery()) {
+                    return result.next();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
             return false;
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        return false;
+        });
     }
 
-    public void addPoints(UUID uuid, int points){
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            try {
-                PreparedStatement ps = plugin.db.getConnection().prepareStatement("UPDATE points SET POINTS=? WHERE UUID=?");
-                ps.setInt(1, (getPoints(uuid) + points));
-                ps.setString(2, uuid.toString());
-                ps.executeUpdate();
-            } catch (SQLException e){
+    public CompletableFuture<Void> addPoints(UUID uuid, int points) {
+        return CompletableFuture.runAsync(() -> {
+            try (final PreparedStatement statement = this.plugin.db.getConnection().prepareStatement("UPDATE points SET POINTS=? WHERE UUID=?")) {
+                statement.setInt(1, this.getPoints(uuid).join() + points);
+                statement.setString(2, uuid.toString());
+                statement.executeUpdate();
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         });
     }
 
-    public void resetPoints(UUID uuid){
-        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            try {
-                PreparedStatement ps = plugin.db.getConnection().prepareStatement("UPDATE points SET POINTS=? WHERE UUID=?");
-                ps.setInt(1, (0));
-                ps.setString(2, uuid.toString());
-                ps.executeUpdate();
-            } catch (SQLException e){
+    public CompletableFuture<Void> resetPoints(UUID uuid) {
+        return CompletableFuture.runAsync(() -> {
+            try (final PreparedStatement statement = this.plugin.db.getConnection().prepareStatement("UPDATE points SET POINTS=? WHERE UUID=?")) {
+                statement.setInt(1, 0);
+                statement.setString(2, uuid.toString());
+                statement.executeUpdate();
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         });
     }
 
-    public int getPoints(UUID uuid){
+    public CompletableFuture<Integer> getPoints(UUID uuid) {
+        return this.makeFuture(() -> {
+            try (final PreparedStatement statement = this.plugin.db.getConnection().prepareStatement("SELECT POINTS FROM points WHERE UUID=?")) {
+                statement.setString(1, uuid.toString());
+                try (final ResultSet result = statement.executeQuery()) {
+                    if (result.next()) {
+                        return result.getInt("POINTS");
+                    }
+                }
+            }
+            return 0;
+        });
+    }
+
+    public CompletableFuture<Void> emptyTable() {
+        return CompletableFuture.runAsync(() -> {
+            try (final PreparedStatement statement = this.plugin.db.getConnection().prepareStatement("TRUNCATE points")) {
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public CompletableFuture<Void> removeTable(UUID uuid) {
+        return CompletableFuture.runAsync(() -> {
+            try (final PreparedStatement statement = this.plugin.db.getConnection().prepareStatement("DELETE FROM points WHERE UUID=?")) {
+                statement.setString(1, uuid.toString());
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private <T> CompletableFuture<T> makeFuture(Callable<T> callable) {
+        final CompletableFuture<T> future = new CompletableFuture<>();
         try {
-            PreparedStatement ps = plugin.db.getConnection().prepareStatement("SELECT POINTS FROM points WHERE UUID=?");
-            ps.setString(1, uuid.toString());
-            ResultSet rs = ps.executeQuery();
-            int points = 0;
-            if(rs.next()) {
-                points = rs.getInt("POINTS");
-                return points;
-            }
-        } catch (SQLException e){
-            e.printStackTrace();
+            future.complete(callable.call());
+        } catch (Exception e) {
+            future.completeExceptionally(e);
         }
-        return 0;
+        return future;
     }
-
-    public void emptyTable(){
-        try{
-            PreparedStatement ps = plugin.db.getConnection().prepareStatement("TRUNCATE points");
-            ps.executeUpdate();
-        } catch(SQLException e){
-            e.printStackTrace();
-        }
-    }
-
-    public void removeTable(UUID uuid){
-        try{
-            PreparedStatement ps = plugin.db.getConnection().prepareStatement("DELETE FROM points WHERE UUID=?");
-            ps.setString(1, uuid.toString());
-            ps.executeUpdate();
-        } catch(SQLException e){
-            e.printStackTrace();
-        }
-    }
-
 }

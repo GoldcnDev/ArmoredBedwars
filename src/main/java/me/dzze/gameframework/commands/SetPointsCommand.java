@@ -11,7 +11,8 @@ import org.bukkit.entity.Player;
 public class SetPointsCommand implements CommandExecutor {
 
     private Main plugin;
-    public SetPointsCommand(Main plugin){
+
+    public SetPointsCommand(Main plugin) {
         this.plugin = plugin;
     }
 
@@ -19,37 +20,51 @@ public class SetPointsCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Player p = (Player) sender;
-        if(cmd.getLabel().equalsIgnoreCase("setpoints")){
-            if(!p.hasPermission("pvpgames.setpoints")){
+        if (cmd.getLabel().equalsIgnoreCase("setpoints")) {
+            if (!p.hasPermission("pvpgames.setpoints")) {
                 MessageUtils.message(p, "&4No permission.");
             } else {
-                if(args.length == 0){
+                if (args.length == 0) {
                     MessageUtils.message(p, "&4Invalid arguments.");
                 }
-                if(args.length == 1){
-                    Integer pint = plugin.data.getPoints(p.getUniqueId());
-                    plugin.data.addPoints(p.getUniqueId(), Integer.parseInt(args[0]));
-                    MessageUtils.message(p, "&aSet your points to &e" + (pint += Integer.valueOf(args[0])));
+                if (args.length == 1) {
+                    try {
+                        final int points = Integer.parseInt(args[0]);
+                        plugin.data.addPoints(p.getUniqueId(), points).whenComplete((v, err) ->
+                                MessageUtils.message(p, "&aSet your points to &e" + points)
+                        );
+                    } catch (NumberFormatException ignored) {
+                        MessageUtils.message(p, "&cPoints must be a number!");
+                    }
                 }
-                if(args.length == 2){
-                    Player target = Bukkit.getPlayer(args[0]);
-                    int targetint = plugin.data.getPoints(target.getUniqueId());
-                    plugin.data.addPoints(target.getUniqueId(), Integer.parseInt(args[1]));
-                    MessageUtils.message(p, "&aSet &e" + target.getName() + "&a's points to &e" + (targetint+=Integer.valueOf(args[1])));
+                if (args.length == 2) {
+                    final Player target = Bukkit.getPlayer(args[0]);
+                    if (target == null) {
+                        MessageUtils.message(p, "&cCould not find the player specified.");
+                    } else {
+                        try {
+                            final int points = Integer.parseInt(args[1]);
+                            plugin.data.addPoints(target.getUniqueId(), points).whenComplete((v, err) ->
+                                    MessageUtils.message(p, "&aSet &e" + target.getName() + "&a's points to &e" + points)
+                            );
+                        } catch (NumberFormatException ignored) {
+                            MessageUtils.message(p, "&cPoints must be a number!");
+                        }
+                    }
                 }
 
             }
         }
 
-        if(cmd.getLabel().equalsIgnoreCase("resetpoints")){
-            if(!p.hasPermission("pvpgames.resetpoints")){
+        if (cmd.getLabel().equalsIgnoreCase("resetpoints")) {
+            if (!p.hasPermission("pvpgames.resetpoints")) {
                 MessageUtils.message(p, "&4No permission.");
             } else {
-                if(args.length == 0){
+                if (args.length == 0) {
                     plugin.data.resetPoints(p.getUniqueId());
                     MessageUtils.message(p, "&aSet your points to &e0");
                 }
-                if(args.length == 1){
+                if (args.length == 1) {
                     Player target = Bukkit.getPlayer(args[0]);
                     plugin.data.resetPoints(target.getUniqueId());
                     MessageUtils.message(p, "&aSet &e" + target.getName() + "&a's points to &e0");
