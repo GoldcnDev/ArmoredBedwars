@@ -144,7 +144,4 @@ public class Main extends JavaPlugin {
     private static void setInstance(Main instance){
         Main.instance = instance;
     }
-
-
-
 }
