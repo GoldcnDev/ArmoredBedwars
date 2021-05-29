@@ -3,7 +3,6 @@ package me.dzze.gameframework.managers;
 import me.dzze.gameframework.Main;
 import me.dzze.gameframework.utils.LocationUtils;
 import me.dzze.gameframework.utils.MessageUtils;
-import net.minecraft.server.v1_16_R2.VillagerType;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
