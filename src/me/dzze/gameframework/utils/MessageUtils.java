@@ -2,6 +2,7 @@ package me.dzze.gameframework.utils;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 public final class MessageUtils {
@@ -20,4 +21,6 @@ public final class MessageUtils {
     public static TextComponent component(String str){
         return new TextComponent(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', str)));
     }
+
+    public static void broadcast(String s) { Bukkit.getServer().broadcastMessage(MessageUtils.color(s)); }
 }
