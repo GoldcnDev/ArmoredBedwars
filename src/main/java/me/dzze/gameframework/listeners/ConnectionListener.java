@@ -55,7 +55,7 @@ public class ConnectionListener extends SpecManager implements Listener {
             for(Player online: Bukkit.getOnlinePlayers()){
                 online.removePotionEffect(PotionEffectType.JUMP);
                 online.teleport(Bukkit.getWorld("spawn").getSpawnLocation());
-                    online.sendMessage(MessageUtils.color("&6&lVote for a map!"));
+                  /**  online.sendMessage(MessageUtils.color("&6&lVote for a map!"));
                     TextComponent archaic = new TextComponent(MessageUtils.component("&71. &aArchaic &7[VOTE]"));
                     archaic.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(MessageUtils.component("&aClick to vote for Archaic.")).create()));
                     archaic.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/oitc archaic"));
@@ -64,6 +64,7 @@ public class ConnectionListener extends SpecManager implements Listener {
                     trainland.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/oitc trainland"));
                     online.spigot().sendMessage(archaic);
                     online.spigot().sendMessage(trainland);
+                   **/
                 plugin.createBoard(online);
             }
             if(onlineCount < 4){

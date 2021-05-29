@@ -16,6 +16,7 @@ public class LocationUtils {
         main.getConfig().set(s + ".x", loc.getX());
         main.getConfig().set(s + ".y", loc.getY());
         main.getConfig().set(s + ".z", loc.getZ());
+        main.saveConfig();
     }
 
     public static Location getFromConfig(String s){

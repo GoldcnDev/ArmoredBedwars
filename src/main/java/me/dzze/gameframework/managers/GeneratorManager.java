@@ -1,6 +1,7 @@
 package me.dzze.gameframework.managers;
 
 import me.dzze.gameframework.Main;
+import me.dzze.gameframework.utils.LocationUtils;
 import me.dzze.gameframework.utils.MessageUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -42,8 +43,7 @@ public class GeneratorManager {
         i3.setCustomNameVisible(true);
         i3.setVisible(false);
 
-        ArmorStand i4 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(new Location(Bukkit.getWorld(main.getConfig().getString("Iron4.world")), main.getConfig().getDouble("Iron4.x"),
-                main.getConfig().getDouble("Iron4.y"), main.getConfig().getDouble("Iron4.z")), EntityType.ARMOR_STAND);
+        ArmorStand i4 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(LocationUtils.getFromConfig("Iron4"), EntityType.ARMOR_STAND);
         i4.setGravity(false);
         i4.setCanPickupItems(false);
         i4.setInvulnerable(true);
@@ -51,8 +51,7 @@ public class GeneratorManager {
         i4.setCustomNameVisible(true);
         i4.setVisible(false);
 
-        ArmorStand dia1 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(new Location(Bukkit.getWorld(main.getConfig().getString("Iron4.world")), main.getConfig().getDouble("Iron4.x"),
-                main.getConfig().getDouble("Iron4.y"), main.getConfig().getDouble("Iron4.z")), EntityType.ARMOR_STAND);
+        ArmorStand dia1 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(LocationUtils.getFromConfig("Dia1"), EntityType.ARMOR_STAND);
         i4.setGravity(false);
         i4.setCanPickupItems(false);
         i4.setInvulnerable(true);
@@ -60,16 +59,14 @@ public class GeneratorManager {
         i4.setCustomNameVisible(true);
         i4.setVisible(false);
 
-        ArmorStand em1 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(new Location(Bukkit.getWorld(main.getConfig().getString("Em1.world")), main.getConfig().getDouble("Em1.x"),
-                main.getConfig().getDouble("Em1.y"), main.getConfig().getDouble("Em1.z")), EntityType.ARMOR_STAND);
+        ArmorStand em1 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(LocationUtils.getFromConfig("Em1"), EntityType.ARMOR_STAND);
         em1.setGravity(false);
         em1.setCanPickupItems(false);
         em1.setInvulnerable(true);
         em1.setCustomName(MessageUtils.color("&a&lEMERALD GEN"));
         em1.setCustomNameVisible(true);
         em1.setVisible(false);
-        ArmorStand em2 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(new Location(Bukkit.getWorld(main.getConfig().getString("Em2.world")), main.getConfig().getDouble("Em2.x"),
-                main.getConfig().getDouble("Em2.y"), main.getConfig().getDouble("Em2.z")), EntityType.ARMOR_STAND);
+        ArmorStand em2 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(LocationUtils.getFromConfig("Em2"), EntityType.ARMOR_STAND);
         em2.setGravity(false);
         em2.setCanPickupItems(false);
         em2.setInvulnerable(true);
@@ -83,8 +80,8 @@ public class GeneratorManager {
                 i4.getWorld().dropItemNaturally(i4.getLocation(), new ItemStack(Material.IRON_INGOT, 1));
             }, 0L, 40L);
             Bukkit.getScheduler().runTaskLater(main, () -> {
-                Bukkit.getServer().broadcastMessage(MessageUtils.color("&3&lBED&b&lWARS &8| &aThe Emerald generators are now active!"));
-                Bukkit.getServer().broadcastMessage(MessageUtils.color("&3&lBED&b&lWARS &8| &aThey will drop each minute. "));
+                MessageUtils.broadcast("&3&lBED&b&lWARS &8| &aThe Emerald generators are now active!");
+                MessageUtils.broadcast("&3&lBED&b&lWARS &8| &aThey will drop each minute.");
                 for(Player online: Bukkit.getOnlinePlayers()){
                     online.playSound(online.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 10, 1);
                     online.playSound(online.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, 2);
