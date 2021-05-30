@@ -1,5 +1,6 @@
 package me.dzze.gameframework.listeners;
 
+import me.dzze.gameframework.Main;
 import me.dzze.gameframework.commands.SetCrystalBlue;
 import me.dzze.gameframework.commands.SetCrystalPurple;
 import me.dzze.gameframework.commands.SetCrystalRed;
@@ -18,6 +19,12 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import java.util.concurrent.TimeUnit;
 
 public class CrystalListener implements Listener {
+
+    Main main;
+    public CrystalListener(Main main){
+        this.main = main;
+    }
+
     @EventHandler
     public void on(EntityDamageByEntityEvent e) {
         final Entity entity = e.getEntity();
@@ -29,21 +36,25 @@ public class CrystalListener implements Listener {
                 e.setCancelled(true);
             }
             if(SetCrystalBlue.isSetting.contains(player)){
+                main.getConfig().set("CrystalBlue", e.getEntity().getLocation());
                 e.setCancelled(true);
                 SetCrystalBlue.isSetting.remove(player);
                 MessageUtils.message(player, "&bSet the location of the crystal.");
             }
             if(SetCrystalRed.isSetting.contains(player)){
+                main.getConfig().set("CrystalRed", e.getEntity().getLocation());
                 e.setCancelled(true);
                 SetCrystalRed.isSetting.remove(player);
                 MessageUtils.message(player, "&bSet the location of the crystal.");
             }
             if(SetCrystalWhite.isSetting.contains(player)){
+                main.getConfig().set("CrystalWhite", e.getEntity().getLocation());
                 e.setCancelled(true);
                 SetCrystalWhite.isSetting.remove(player);
                 MessageUtils.message(player, "&bSet the location of the crystal.");
             }
             if(SetCrystalPurple.isSetting.contains(player)){
+                main.getConfig().set("CrystalPurple", e.getEntity().getLocation());
                 e.setCancelled(true);
                 SetCrystalPurple.isSetting.remove(player);
                 MessageUtils.message(player, "&bSet the location of the crystal.");

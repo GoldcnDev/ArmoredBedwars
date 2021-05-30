@@ -34,7 +34,7 @@ public class Main extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new CompassListener(), this);
         Bukkit.getPluginManager().registerEvents(new TeamManager(), this);
         Bukkit.getPluginManager().registerEvents(new BedListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new CrystalListener(), this);
+        Bukkit.getPluginManager().registerEvents(new CrystalListener(this), this);
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         this.getCommand("connect").setExecutor(new ConnectCommand());
         Bukkit.getPluginCommand("bedwars").setExecutor(BWCommand);
