@@ -5,6 +5,7 @@ import me.dzze.gameframework.commands.SetBedBlue;
 import me.dzze.gameframework.commands.SetBedPurple;
 import me.dzze.gameframework.commands.SetBedRed;
 import me.dzze.gameframework.commands.SetBedWhite;
+import me.dzze.gameframework.managers.GameManager;
 import me.dzze.gameframework.managers.TeamManager;
 import me.dzze.gameframework.utils.MessageUtils;
 import me.dzze.gameframework.utils.Teams;
@@ -77,14 +78,16 @@ public class BedListener implements Listener {
                     e.setCancelled(true);
                     MessageUtils.message(p, "&3&lB&b&lW &8| &cYou may not break your own bed.");
                 } else {
-                    Bukkit.getServer().broadcastMessage(MessageUtils.color("&3&lB&B&lW &8| &cThe &5&lPURPLE &cbed has been destroyed!"));
-                    for(Player online: Bukkit.getOnlinePlayers()){
-                        if(TeamManager.getTeam(online) == Teams.PURPLE){
-                            online.playSound(online.getLocation(), Sound.ENTITY_WITHER_DEATH, 7, 1);
-                            online.sendTitle(MessageUtils.color("&4&lBED BROKEN!"), MessageUtils.color("&6You will not respawn."), 10, 60, 10);
+                    if(GameManager.gameRunning){
+                        Bukkit.getServer().broadcastMessage(MessageUtils.color("&3&lB&B&lW &8| &cThe &5&lPURPLE &cbed has been destroyed!"));
+                        for(Player online: Bukkit.getOnlinePlayers()){
+                            if(TeamManager.getTeam(online) == Teams.PURPLE){
+                                online.playSound(online.getLocation(), Sound.ENTITY_WITHER_DEATH, 7, 1);
+                                online.sendTitle(MessageUtils.color("&4&lBED BROKEN!"), MessageUtils.color("&6You will not respawn."), 10, 60, 10);
+                            }
                         }
+                        hasBed.remove(Teams.PURPLE);
                     }
-                    hasBed.remove(Teams.PURPLE);
                 }
                 e.setDropItems(false);
             }
@@ -94,14 +97,16 @@ public class BedListener implements Listener {
                     e.setCancelled(true);
                     MessageUtils.message(p, "&3&lB&b&lW &8| &cYou may not break your own bed.");
                 } else {
-                    Bukkit.getServer().broadcastMessage(MessageUtils.color("&3&lB&B&lW &8| &cThe &c&lRED &cbed has been destroyed!"));
-                    for(Player online: Bukkit.getOnlinePlayers()){
-                        if(TeamManager.getTeam(online) == Teams.RED){
-                            online.playSound(online.getLocation(), Sound.ENTITY_WITHER_DEATH, 7, 1);
-                            online.sendTitle(MessageUtils.color("&4&lBED BROKEN!"), MessageUtils.color("&6You will not respawn."), 10, 60, 10);
+                    if(GameManager.gameRunning){
+                        Bukkit.getServer().broadcastMessage(MessageUtils.color("&3&lB&B&lW &8| &cThe &c&lRED &cbed has been destroyed!"));
+                        for(Player online: Bukkit.getOnlinePlayers()){
+                            if(TeamManager.getTeam(online) == Teams.RED){
+                                online.playSound(online.getLocation(), Sound.ENTITY_WITHER_DEATH, 7, 1);
+                                online.sendTitle(MessageUtils.color("&4&lBED BROKEN!"), MessageUtils.color("&6You will not respawn."), 10, 60, 10);
+                            }
                         }
+                        hasBed.remove(Teams.RED);
                     }
-                    hasBed.remove(Teams.RED);
                 }
                 e.setDropItems(false);
             }
@@ -112,14 +117,16 @@ public class BedListener implements Listener {
                     e.setCancelled(true);
                     MessageUtils.message(p, "&3&lB&b&lW &8| &cYou may not break your own bed.");
                 } else {
-                    Bukkit.getServer().broadcastMessage(MessageUtils.color("&3&lB&B&lW &8| &cThe &9&lBLUE &cbed has been destroyed!"));
-                    for(Player online: Bukkit.getOnlinePlayers()){
-                        if(TeamManager.getTeam(online) == Teams.BLUE){
-                            online.playSound(online.getLocation(), Sound.ENTITY_WITHER_DEATH, 7, 1);
-                            online.sendTitle(MessageUtils.color("&4&lBED BROKEN!"), MessageUtils.color("&6You will not respawn."), 10, 60, 10);
+                    if(GameManager.gameRunning){
+                        Bukkit.getServer().broadcastMessage(MessageUtils.color("&3&lB&B&lW &8| &cThe &9&lBLUE &cbed has been destroyed!"));
+                        for(Player online: Bukkit.getOnlinePlayers()){
+                            if(TeamManager.getTeam(online) == Teams.BLUE){
+                                online.playSound(online.getLocation(), Sound.ENTITY_WITHER_DEATH, 7, 1);
+                                online.sendTitle(MessageUtils.color("&4&lBED BROKEN!"), MessageUtils.color("&6You will not respawn."), 10, 60, 10);
+                            }
                         }
+                        hasBed.remove(Teams.BLUE);
                     }
-                    hasBed.remove(Teams.BLUE);
                 }
                 e.setDropItems(false);
             }
@@ -129,14 +136,16 @@ public class BedListener implements Listener {
                     e.setCancelled(true);
                     MessageUtils.message(p, "&3&lB&b&lW &8| &cYou may not break your own bed.");
                 } else {
-                    Bukkit.getServer().broadcastMessage(MessageUtils.color("&3&lB&B&lW &8| &cThe &f&lWHITE &cbed has been destroyed!"));
-                    for(Player online: Bukkit.getOnlinePlayers()){
-                        if(TeamManager.getTeam(online) == Teams.WHITE){
-                            online.playSound(online.getLocation(), Sound.ENTITY_WITHER_DEATH, 7, 1);
-                            online.sendTitle(MessageUtils.color("&4&lBED BROKEN!"), MessageUtils.color("&6You will not respawn."), 10, 60, 10);
+                    if(GameManager.gameRunning){
+                        Bukkit.getServer().broadcastMessage(MessageUtils.color("&3&lB&B&lW &8| &cThe &f&lWHITE &cbed has been destroyed!"));
+                        for(Player online: Bukkit.getOnlinePlayers()){
+                            if(TeamManager.getTeam(online) == Teams.WHITE){
+                                online.playSound(online.getLocation(), Sound.ENTITY_WITHER_DEATH, 7, 1);
+                                online.sendTitle(MessageUtils.color("&4&lBED BROKEN!"), MessageUtils.color("&6You will not respawn."), 10, 60, 10);
+                            }
                         }
+                        hasBed.remove(Teams.WHITE);
                     }
-                    hasBed.remove(Teams.WHITE);
                 }
                 e.setDropItems(false);
             }
