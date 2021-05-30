@@ -1,7 +1,6 @@
 package me.dzze.gameframework.commands;
 
 import me.dzze.gameframework.Main;
-import me.dzze.gameframework.utils.LocationUtils;
 import me.dzze.gameframework.utils.MessageUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -21,8 +20,6 @@ public class SetBedWhite implements SubCommand {
     @Override
     public void execute(CommandSender sender, String label, String[] args) {
         Player p = (Player) sender;
-        LocationUtils.setToConfig("White", p.getLocation());
-        main.saveConfig();
         settingBed.add(p);
         settingBed2.add(p);
         p.sendMessage(MessageUtils.color("&6BEDWARS &8| &aPlease break the White bed."));

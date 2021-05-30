@@ -19,11 +19,6 @@ public class SetBedBlue implements SubCommand {
     @Override
     public void execute(CommandSender sender, String label, String[] args) {
         Player p = (Player) sender;
-        main.getConfig().set("Blue.world", p.getWorld().getName());
-        main.getConfig().set("Blue.x", p.getLocation().getX());
-        main.getConfig().set("Blue.y", p.getLocation().getY());
-        main.getConfig().set("Blue.z", p.getLocation().getZ());
-        main.saveConfig();
         settingBed.add(p);
         settingBed2.add(p);
         p.sendMessage(MessageUtils.color("&6BEDWARS &8| &aPlease break the Blue bed."));

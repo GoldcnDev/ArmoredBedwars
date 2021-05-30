@@ -15,10 +15,7 @@ public class SetIronThree implements SubCommand {
     @Override
     public void execute(CommandSender sender, String label, String[] args) {
         Player p = (Player) sender;
-        main.getConfig().set("Iron3.world", p.getWorld().getName());
-        main.getConfig().set("Iron3.x", p.getLocation().getX());
-        main.getConfig().set("Iron3.y", p.getLocation().getY());
-        main.getConfig().set("Iron3.z", p.getLocation().getZ());
+        main.getConfig().set("Iron3", p.getLocation());
         main.saveConfig();
         p.sendMessage(MessageUtils.color("&6BEDWARS &8| &aSet iron gen 3 to your location."));
     }

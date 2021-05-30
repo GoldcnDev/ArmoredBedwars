@@ -15,10 +15,7 @@ public class SetEm2 implements SubCommand {
     @Override
     public void execute(CommandSender sender, String label, String[] args) {
         Player p = (Player) sender;
-        main.getConfig().set("Em2.world", p.getWorld().getName());
-        main.getConfig().set("Em2.x", p.getLocation().getX());
-        main.getConfig().set("Em2.y", p.getLocation().getY());
-        main.getConfig().set("Em2.z", p.getLocation().getZ());
+        main.getConfig().set("Em2", p.getLocation());
         main.saveConfig();
         p.sendMessage(MessageUtils.color("&6BEDWARS &8| &aSet emerald gen 2 to your location."));
     }

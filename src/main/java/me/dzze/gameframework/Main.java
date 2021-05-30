@@ -83,9 +83,9 @@ public class Main extends JavaPlugin {
         Scoreboard sb = manager.getNewScoreboard();
         Objective obj = sb.registerNewObjective("First", "dummy", MessageUtils.color("&3&lBED&b&lWARS"));
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-        Score score2 = obj.getScore(MessageUtils.color("&a&lPoints &8&l» &e" +
-                this.data.getPoints(player.getUniqueId())));
-        score2.setScore(2);
+      //  Score score2 = obj.getScore(MessageUtils.color("&a&lPoints &8&l» &e" +
+        //        this.data.getPoints(player.getUniqueId())));
+       // score2.setScore(2);
         if (TeamManager.getTeam(player) == Teams.BLUE) {
             Score score3 = obj.getScore(MessageUtils.color("&3&lTeam &8&l» &r" +
                     "&9&lBLUE"));
