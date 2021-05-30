@@ -43,52 +43,36 @@ public class BedListener implements Listener {
 
         if(SetBedBlue.settingBed.contains(p)){
             e.setCancelled(true);
-            main.getConfig().set("Blue.world", p.getWorld().getName());
-            main.getConfig().set("Blue.x", e.getBlock().getLocation().getX());
-            main.getConfig().set("Blue.y", e.getBlock().getLocation().getY());
-            main.getConfig().set("Blue.z", e.getBlock().getLocation().getZ());
+            main.getConfig().set("Blue", e.getBlock().getLocation());
             main.saveConfig();
             SetBedBlue.settingBed.remove(p);
             p.sendMessage(MessageUtils.color("&3&lB&b&lW &8| &aSet the location of the Blue bed."));
         }
         if(SetBedWhite.settingBed.contains(p)){
             e.setCancelled(true);
-            main.getConfig().set("White.world", p.getWorld().getName());
-            main.getConfig().set("White.x", e.getBlock().getLocation().getX());
-            main.getConfig().set("White.y", e.getBlock().getLocation().getY());
-            main.getConfig().set("White.z", e.getBlock().getLocation().getZ());
+            main.getConfig().set("White", e.getBlock().getLocation());
             main.saveConfig();
             SetBedWhite.settingBed.remove(p);
             p.sendMessage(MessageUtils.color("&3&lB&b&lW &8| &aSet the location of the White bed."));
         }
         if(SetBedRed.settingBed.contains(p)){
             e.setCancelled(true);
-            main.getConfig().set("Red.world", p.getWorld().getName());
-            main.getConfig().set("Red.x", e.getBlock().getLocation().getX());
-            main.getConfig().set("Red.y", e.getBlock().getLocation().getY());
-            main.getConfig().set("Red.z", e.getBlock().getLocation().getZ());
+            main.getConfig().set("Red", e.getBlock().getLocation());
             main.saveConfig();
             SetBedRed.settingBed.remove(p);
             MessageUtils.message(p, "&3&lB&b&lW &8| &aSet the location of the Red bed.");
         }
         if(SetBedPurple.settingBed.contains(p)){
             e.setCancelled(true);
-            main.getConfig().set("Purple.world", p.getWorld().getName());
-            main.getConfig().set("Purple.x", e.getBlock().getLocation().getX());
-            main.getConfig().set("Purple.y", e.getBlock().getLocation().getY());
-            main.getConfig().set("Purple.z", e.getBlock().getLocation().getZ());
+            main.getConfig().set("Purple", e.getBlock().getLocation());
             main.saveConfig();
             SetBedPurple.settingBed.remove(p);
             MessageUtils.message(p, "&3&lB&b&lW &8| &aSet the location of the Purple bed.");
         }
 
         if(e.getBlock().getType() == Material.RED_BED){
-            if(e.getBlock().getState().getLocation().equals(new Location(Bukkit.getWorld(main.getConfig().getString("Purple.world")),
-                    main.getConfig().getDouble("Purple.x"), main.getConfig().getDouble("Purple.y"),
-                    main.getConfig().getDouble("Purple.z")))
-            || e.getBlock().getState().getLocation().equals(new Location(Bukkit.getWorld(main.getConfig().getString("Purple2.world")),
-                    main.getConfig().getDouble("Purple2.x"), main.getConfig().getDouble("Purple2.y"),
-                    main.getConfig().getDouble("Purple2.z")))){
+            if(e.getBlock().getState().getLocation().equals(main.getConfig().getLocation("Purple"))
+            || e.getBlock().getState().getLocation().equals(main.getConfig().getLocation("Purple2"))){
                 if(TeamManager.getTeam(p) == Teams.PURPLE){
                     e.setCancelled(true);
                     MessageUtils.message(p, "&3&lB&b&lW &8| &cYou may not break your own bed.");
@@ -104,12 +88,8 @@ public class BedListener implements Listener {
                 }
                 e.setDropItems(false);
             }
-            if(e.getBlock().getState().getLocation().equals(new Location(Bukkit.getWorld(main.getConfig().getString("Red.world")),
-                    main.getConfig().getDouble("Red.x"), main.getConfig().getDouble("Red.y"),
-                    main.getConfig().getDouble("Red.z")))
-                    || e.getBlock().getState().getLocation().equals(new Location(Bukkit.getWorld(main.getConfig().getString("Red2.world")),
-                    main.getConfig().getDouble("Red2.x"), main.getConfig().getDouble("Red2.y"),
-                    main.getConfig().getDouble("Red2.z")))){
+            if(e.getBlock().getState().getLocation().equals(main.getConfig().getLocation("Red"))
+                    || e.getBlock().getState().getLocation().equals(main.getConfig().getLocation("Red2"))){
                 if(TeamManager.getTeam(p) == Teams.RED){
                     e.setCancelled(true);
                     MessageUtils.message(p, "&3&lB&b&lW &8| &cYou may not break your own bed.");
@@ -125,12 +105,8 @@ public class BedListener implements Listener {
                 }
                 e.setDropItems(false);
             }
-            if(e.getBlock().getState().getLocation().equals(new Location(Bukkit.getWorld(main.getConfig().getString("Blue.world")),
-                    main.getConfig().getDouble("Blue.x"), main.getConfig().getDouble("Blue.y"),
-                    main.getConfig().getDouble("Blue.z")))
-                    || e.getBlock().getState().getLocation().equals(new Location(Bukkit.getWorld(main.getConfig().getString("Blue2.world")),
-                    main.getConfig().getDouble("Blue2.x"), main.getConfig().getDouble("Blue2.y"),
-                    main.getConfig().getDouble("Blue2.z")))){
+            if(e.getBlock().getState().getLocation().equals(main.getConfig().getLocation("Blue"))
+                    || e.getBlock().getState().getLocation().equals(main.getConfig().getLocation("Blue2"))){
 
                 if(TeamManager.getTeam(p) == Teams.BLUE){
                     e.setCancelled(true);
@@ -147,12 +123,8 @@ public class BedListener implements Listener {
                 }
                 e.setDropItems(false);
             }
-            if(e.getBlock().getState().getLocation().equals(new Location(Bukkit.getWorld(main.getConfig().getString("White.world")),
-                    main.getConfig().getDouble("White.x"), main.getConfig().getDouble("White.y"),
-                    main.getConfig().getDouble("White.z")))
-                    || e.getBlock().getState().getLocation().equals(new Location(Bukkit.getWorld(main.getConfig().getString("White2.world")),
-                    main.getConfig().getDouble("White2.x"), main.getConfig().getDouble("White2.y"),
-                    main.getConfig().getDouble("White2.z")))){
+            if(e.getBlock().getState().getLocation().equals(main.getConfig().getLocation("White"))
+                    || e.getBlock().getState().getLocation().equals(main.getConfig().getLocation("White2"))){
                 if(TeamManager.getTeam(p) == Teams.WHITE){
                     e.setCancelled(true);
                     MessageUtils.message(p, "&3&lB&b&lW &8| &cYou may not break your own bed.");
@@ -184,37 +156,25 @@ public class BedListener implements Listener {
         Player p = e.getPlayer();
         if(e.getAction() == Action.RIGHT_CLICK_BLOCK){
             if(SetBedWhite.settingBed2.contains(p)){
-                main.getConfig().set("White2.world", p.getWorld().getName());
-                main.getConfig().set("White2.x", e.getClickedBlock().getLocation().getX());
-                main.getConfig().set("White2.y", e.getClickedBlock().getLocation().getY());
-                main.getConfig().set("White2.z", e.getClickedBlock().getLocation().getZ());
+                main.getConfig().set("White2", e.getClickedBlock().getLocation());
                 main.saveConfig();
                 SetBedWhite.settingBed2.remove(p);
                 p.sendMessage(MessageUtils.color("&3&lB&b&lW &8| &aSet the location of the White bed bottom."));
             }
             if(SetBedRed.settingBed2.contains(p)){
-                main.getConfig().set("Red2.world", p.getWorld().getName());
-                main.getConfig().set("Red2.x", e.getClickedBlock().getLocation().getX());
-                main.getConfig().set("Red2.y", e.getClickedBlock().getLocation().getY());
-                main.getConfig().set("Red2.z", e.getClickedBlock().getLocation().getZ());
+                main.getConfig().set("Red2", e.getClickedBlock().getLocation());
                 main.saveConfig();
                 SetBedRed.settingBed2.remove(p);
                 p.sendMessage(MessageUtils.color("&3&lB&b&lW &8| &aSet the location of the Red bed bottom."));
             }
             if(SetBedPurple.settingBed2.contains(p)){
-                main.getConfig().set("Purple2.world", p.getWorld().getName());
-                main.getConfig().set("Purple2.x", e.getClickedBlock().getLocation().getX());
-                main.getConfig().set("Purple2.y", e.getClickedBlock().getLocation().getY());
-                main.getConfig().set("Purple2.z", e.getClickedBlock().getLocation().getZ());
+                main.getConfig().set("Purple2", e.getClickedBlock().getLocation());
                 main.saveConfig();
                 SetBedPurple.settingBed2.remove(p);
                 p.sendMessage(MessageUtils.color("&3&lB&b&lW &8| &aSet the location of the Purple bed bottom."));
             }
             if(SetBedBlue.settingBed2.contains(p)){
-                main.getConfig().set("Blue2.world", p.getWorld().getName());
-                main.getConfig().set("Blue2.x", e.getClickedBlock().getLocation().getX());
-                main.getConfig().set("Blue2.y", e.getClickedBlock().getLocation().getY());
-                main.getConfig().set("Blue2.z", e.getClickedBlock().getLocation().getZ());
+                main.getConfig().set("Blue2", e.getClickedBlock().getLocation());
                 main.saveConfig();
                 SetBedBlue.settingBed2.remove(p);
                 p.sendMessage(MessageUtils.color("&3&lB&b&lW &8| &aSet the location of the Blue bed bottom."));
