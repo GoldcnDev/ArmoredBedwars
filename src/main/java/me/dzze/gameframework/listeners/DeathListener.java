@@ -21,6 +21,8 @@ public class DeathListener implements Listener {
             SpecManager.putSpec(p);
             p.playSound(p.getLocation(), Sound.ENTITY_GHAST_DEATH, 10, 1);
             p.sendTitle(MessageUtils.color("&4&lYou were eliminated!"), "", 10, 60, 10);
+            p.getInventory().clear();
+            SpecManager.giveSpecItem(p);
             MessageUtils.broadcast(newname + " &cwas eliminated!");
             switch(TeamManager.getTeam(p)){
                 case PURPLE:

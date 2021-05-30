@@ -30,7 +30,7 @@ public class SpecManager {
         return (spectator.contains(p) ? true : false);
     }
 
-    public void giveSpecItem(Player p){
+    public static void giveSpecItem(Player p){
         ItemStack item = new ItemStack(Material.COMPASS, 1);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(MessageUtils.color("&aSpectator Compass"));

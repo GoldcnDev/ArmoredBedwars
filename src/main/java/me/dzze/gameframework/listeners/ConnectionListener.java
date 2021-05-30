@@ -105,7 +105,7 @@ public class ConnectionListener extends SpecManager implements Listener {
                         plugin.getConfig().getDouble("Spawn.y"), plugin.getConfig().getDouble("Spawn5.z")));
             }
             SpecManager.putSpec(p);
-            e.setJoinMessage(MessageUtils.color("&3&lB&b&lW &8| " + p.getDisplayName() + " &7is now spectating."));
+            e.setJoinMessage(MessageUtils.color("&3&lB&b&lW &8| " + newname + " &7is now spectating."));
             p.setPlayerListName(MessageUtils.color("&7[SPECTATOR] " + p.getName()));
             p.setGameMode(GameMode.ADVENTURE);
             p.getInventory().clear();
@@ -113,6 +113,9 @@ public class ConnectionListener extends SpecManager implements Listener {
             p.setAllowFlight(true);
             p.setFlying(true);
             giveSpecItem(p);
+            for(Player online: Bukkit.getOnlinePlayers()){
+                online.hidePlayer(plugin, p);
+            }
         }
 
     }
