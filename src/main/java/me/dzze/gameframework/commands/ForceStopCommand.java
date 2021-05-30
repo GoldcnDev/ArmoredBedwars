@@ -1,8 +1,10 @@
 package me.dzze.gameframework.commands;
 
 import me.dzze.gameframework.Main;
+import me.dzze.gameframework.listeners.BedListener;
 import me.dzze.gameframework.managers.GameManager;
 import me.dzze.gameframework.utils.MessageUtils;
+import me.dzze.gameframework.utils.Teams;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
@@ -29,6 +31,10 @@ public class ForceStopCommand extends GameManager implements SubCommand {
             players.playSound(players.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 6, 1);
             players.playSound(players.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 6, 1);
             players.sendTitle(MessageUtils.color("&3&lBED&b&lWARS"), MessageUtils.color("&4Game over! &eThanks for playing."), 100, 300, 100);
+            BedListener.hasBed.add(Teams.BLUE);
+            BedListener.hasBed.add(Teams.RED);
+            BedListener.hasBed.add(Teams.WHITE);
+            BedListener.hasBed.add(Teams.PURPLE);
         }
         Bukkit.getScheduler().scheduleSyncDelayedTask(main, () -> {
             for(Player online: Bukkit.getOnlinePlayers()){

@@ -22,6 +22,9 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 
@@ -32,10 +35,7 @@ public class BedListener implements Listener {
         this.main = main;
     }
 
-    AtomicReference<Bed> blue = new AtomicReference<>();
-    AtomicReference<Bed> red = new AtomicReference<>();
-    AtomicReference<Bed> purple = new AtomicReference<>();
-    AtomicReference<Bed> white = new AtomicReference<>();
+    public static Set<Teams> hasBed = new HashSet<>();
 
     @EventHandler
     public void onBreak(BlockBreakEvent e){
@@ -100,6 +100,7 @@ public class BedListener implements Listener {
                             online.sendTitle(MessageUtils.color("&4&lBED BROKEN!"), MessageUtils.color("&6You will not respawn."), 10, 60, 10);
                         }
                     }
+                    hasBed.remove(Teams.PURPLE);
                 }
                 e.setDropItems(false);
             }
@@ -120,6 +121,7 @@ public class BedListener implements Listener {
                             online.sendTitle(MessageUtils.color("&4&lBED BROKEN!"), MessageUtils.color("&6You will not respawn."), 10, 60, 10);
                         }
                     }
+                    hasBed.remove(Teams.RED);
                 }
                 e.setDropItems(false);
             }
@@ -141,6 +143,7 @@ public class BedListener implements Listener {
                             online.sendTitle(MessageUtils.color("&4&lBED BROKEN!"), MessageUtils.color("&6You will not respawn."), 10, 60, 10);
                         }
                     }
+                    hasBed.remove(Teams.BLUE);
                 }
                 e.setDropItems(false);
             }
@@ -161,6 +164,7 @@ public class BedListener implements Listener {
                             online.sendTitle(MessageUtils.color("&4&lBED BROKEN!"), MessageUtils.color("&6You will not respawn."), 10, 60, 10);
                         }
                     }
+                    hasBed.remove(Teams.WHITE);
                 }
                 e.setDropItems(false);
             }
