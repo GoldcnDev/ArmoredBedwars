@@ -30,18 +30,22 @@ public class CrystalListener implements Listener {
             }
             if(SetCrystalBlue.isSetting.contains(player)){
                 e.setCancelled(true);
+                SetCrystalBlue.isSetting.remove(player);
                 MessageUtils.message(player, "&bSet the location of the crystal.");
             }
             if(SetCrystalRed.isSetting.contains(player)){
                 e.setCancelled(true);
+                SetCrystalRed.isSetting.remove(player);
                 MessageUtils.message(player, "&bSet the location of the crystal.");
             }
             if(SetCrystalWhite.isSetting.contains(player)){
                 e.setCancelled(true);
+                SetCrystalWhite.isSetting.remove(player);
                 MessageUtils.message(player, "&bSet the location of the crystal.");
             }
             if(SetCrystalPurple.isSetting.contains(player)){
                 e.setCancelled(true);
+                SetCrystalPurple.isSetting.remove(player);
                 MessageUtils.message(player, "&bSet the location of the crystal.");
             }
         }
