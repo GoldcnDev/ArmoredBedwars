@@ -55,9 +55,13 @@ public class DatabaseGetter {
     }
 
     public CompletableFuture<Void> addPoints(UUID uuid, int points) {
+        return this.setPoints(uuid, this.getPoints(uuid).join() + points);
+    }
+
+    public CompletableFuture<Void> setPoints(UUID uuid, int points) {
         return CompletableFuture.runAsync(() -> {
             try (final PreparedStatement statement = this.plugin.db.getConnection().prepareStatement("UPDATE points SET POINTS=? WHERE UUID=?")) {
-                statement.setInt(1, this.getPoints(uuid).join() + points);
+                statement.setInt(1, points);
                 statement.setString(2, uuid.toString());
                 statement.executeUpdate();
             } catch (SQLException e) {

@@ -10,11 +10,8 @@ import me.dzze.gameframework.managers.TeamManager;
 import me.dzze.gameframework.utils.MessageUtils;
 import me.dzze.gameframework.utils.Teams;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.block.Bed;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,10 +20,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
 
 
 public class BedListener implements Listener {
@@ -190,11 +185,4 @@ public class BedListener implements Listener {
             }
         }
     }
-
-
-
-
-
-
-
 }

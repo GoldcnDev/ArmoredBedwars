@@ -19,11 +19,13 @@ import java.util.Random;
 public class ForceStartCommand implements SubCommand {
     Main main;
     GeneratorManager gm;
-   // RespawnListener respawnListener;
-    public ForceStartCommand(Main main, GeneratorManager gm){
+
+    // RespawnListener respawnListener;
+    public ForceStartCommand(Main main, GeneratorManager gm) {
         this.main = main;
         this.gm = gm;
     }
+
     public static String map;
     public static HashMap<Player, Integer> team = new HashMap<>();
 
@@ -38,72 +40,71 @@ public class ForceStartCommand implements SubCommand {
             TeamManager.setTeam(players);
             main.createBoard(players);
             GameManager.gameRunning = true;
+            GameManager.setStartTime(System.currentTimeMillis());
             Bukkit.getWorld("Boletum").setAutoSave(false);
-            if(players.hasPotionEffect(PotionEffectType.INVISIBILITY) || players.hasPotionEffect(PotionEffectType.JUMP)){
-               players.removePotionEffect(PotionEffectType.INVISIBILITY);
-               players.removePotionEffect(PotionEffectType.JUMP);
+            if (players.hasPotionEffect(PotionEffectType.INVISIBILITY) || players.hasPotionEffect(PotionEffectType.JUMP)) {
+                players.removePotionEffect(PotionEffectType.INVISIBILITY);
+                players.removePotionEffect(PotionEffectType.JUMP);
             }
             players.setGameMode(GameMode.SURVIVAL);
             players.sendTitle(MessageUtils.color("&3&lBED&b&lWARS &a&l2.0"), MessageUtils.color("&eAn &4armored&8.pro &ecreation"), 10, 60, 10);
             main.getServer().getScheduler().cancelTasks(main);
             players.getInventory().setItem(0, new ItemStack(Material.WOODEN_SWORD, 1));
-           /** if(ArchaicVoteCommand.votes.size() > TrainlandVoteCommand.votes.size()){
-                players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn5.world")), main.getConfig().getDouble("Spawn5.x"),
-                        main.getConfig().getDouble("Spawn5.y"), main.getConfig().getDouble("Spawn5.z")));
-                map = "archaic";
+            /** if(ArchaicVoteCommand.votes.size() > TrainlandVoteCommand.votes.size()){
+             players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn5.world")), main.getConfig().getDouble("Spawn5.x"),
+             main.getConfig().getDouble("Spawn5.y"), main.getConfig().getDouble("Spawn5.z")));
+             map = "archaic";
+             }
+             if(ArchaicVoteCommand.votes.size() < TrainlandVoteCommand.votes.size()){
+             players.teleport(Bukkit.getWorld("world").getSpawnLocation());
+             map = "trainland";
+             } **/
+            /** if(ArchaicVoteCommand.votes.size() == TrainlandVoteCommand.votes.size()){
+             if(spawn.get(players) == spawn.get(players)){
+             spawn.put(players, random.nextInt(4 - 1 + 1) + 1);
+             }
+             if(spawn.get(players) == 4){
+             players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn4.world")), main.getConfig().getDouble("Spawn4.x"),
+             main.getConfig().getDouble("Spawn4.y"), main.getConfig().getDouble("Spawn4.z")));
+             }
+             if(spawn.get(players) == 3){
+             players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn3.world")), main.getConfig().getDouble("Spawn3.x"),
+             main.getConfig().getDouble("Spawn3.y"), main.getConfig().getDouble("Spawn3.z")));
+             }
+             if(spawn.get(players) == 2){
+             players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn3.world")), main.getConfig().getDouble("Spawn3.x"),
+             main.getConfig().getDouble("Spawn3.y"), main.getConfig().getDouble("Spawn3.z")));
+             }
+             if(spawn.get(players) == 1){
+             players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn4.world")), main.getConfig().getDouble("Spawn4.x"),
+             main.getConfig().getDouble("Spawn4.y"), main.getConfig().getDouble("Spawn4.z")));
+             }
+
+             map = "trainland";
+             } **/
+
+            if (TeamManager.getTeam(players) == Teams.BLUE) {
+                players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn1.world")), main.getConfig().getDouble("Spawn1.x"),
+                        main.getConfig().getDouble("Spawn1.y"), main.getConfig().getDouble("Spawn1.z")));
             }
-            if(ArchaicVoteCommand.votes.size() < TrainlandVoteCommand.votes.size()){
-                players.teleport(Bukkit.getWorld("world").getSpawnLocation());
-                map = "trainland";
-            } **/
-           /** if(ArchaicVoteCommand.votes.size() == TrainlandVoteCommand.votes.size()){
-                if(spawn.get(players) == spawn.get(players)){
-                    spawn.put(players, random.nextInt(4 - 1 + 1) + 1);
-                }
-                if(spawn.get(players) == 4){
-                    players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn4.world")), main.getConfig().getDouble("Spawn4.x"),
-                            main.getConfig().getDouble("Spawn4.y"), main.getConfig().getDouble("Spawn4.z")));
-                }
-                if(spawn.get(players) == 3){
-                    players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn3.world")), main.getConfig().getDouble("Spawn3.x"),
-                            main.getConfig().getDouble("Spawn3.y"), main.getConfig().getDouble("Spawn3.z")));
-                }
-                if(spawn.get(players) == 2){
-                    players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn3.world")), main.getConfig().getDouble("Spawn3.x"),
-                            main.getConfig().getDouble("Spawn3.y"), main.getConfig().getDouble("Spawn3.z")));
-                }
-                if(spawn.get(players) == 1){
-                    players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn4.world")), main.getConfig().getDouble("Spawn4.x"),
-                            main.getConfig().getDouble("Spawn4.y"), main.getConfig().getDouble("Spawn4.z")));
-                }
 
-                map = "trainland";
-            } **/
+            if (TeamManager.getTeam(players) == Teams.RED) {
+                players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn2.world")), main.getConfig().getDouble("Spawn2.x"),
+                        main.getConfig().getDouble("Spawn2.y"), main.getConfig().getDouble("Spawn2.z")));
+            }
 
-                if(TeamManager.getTeam(players) == Teams.BLUE){
-                    players.teleport(   new Location(Bukkit.getWorld(main.getConfig().getString("Spawn1.world")), main.getConfig().getDouble("Spawn1.x"),
-                            main.getConfig().getDouble("Spawn1.y"), main.getConfig().getDouble("Spawn1.z")));
-                }
+            if (TeamManager.getTeam(players) == Teams.WHITE) {
+                players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn3.world")), main.getConfig().getDouble("Spawn3.x"),
+                        main.getConfig().getDouble("Spawn3.y"), main.getConfig().getDouble("Spawn3.z")));
+            }
 
-                if(TeamManager.getTeam(players) == Teams.RED){
-                    players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn2.world")), main.getConfig().getDouble("Spawn2.x"),
-                            main.getConfig().getDouble("Spawn2.y"), main.getConfig().getDouble("Spawn2.z")));
-                }
+            if (TeamManager.getTeam(players) == Teams.PURPLE) {
+                players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn4.world")), main.getConfig().getDouble("Spawn4.x"),
+                        main.getConfig().getDouble("Spawn4.y"), main.getConfig().getDouble("Spawn4.z")));
 
-                if(TeamManager.getTeam(players) == Teams.WHITE){
-                    players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn3.world")), main.getConfig().getDouble("Spawn3.x"),
-                            main.getConfig().getDouble("Spawn3.y"), main.getConfig().getDouble("Spawn3.z")));
-                }
-
-                if(TeamManager.getTeam(players) == Teams.PURPLE){
-                    players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn4.world")), main.getConfig().getDouble("Spawn4.x"),
-                            main.getConfig().getDouble("Spawn4.y"), main.getConfig().getDouble("Spawn4.z")));
-
-                }
-                gm.killGens();
-                gm.startGens();
-
-
+            }
+            gm.killGens();
+            gm.startGens();
 
 
             players.getInventory().clear();

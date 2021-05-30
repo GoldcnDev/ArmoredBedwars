@@ -11,18 +11,20 @@ import org.bukkit.inventory.ItemStack;
 public class GeneratorManager {
 
     Main main;
-    public GeneratorManager(Main main){
+
+    public GeneratorManager(Main main) {
         this.main = main;
     }
 
-    public void startGens(){
-            ArmorStand i1 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Iron1"), EntityType.ARMOR_STAND);
-            i1.setGravity(false);
-            i1.setCanPickupItems(false);
-            i1.setInvulnerable(true);
-            i1.setCustomName(MessageUtils.color("&f&lIRON GEN"));
-            i1.setCustomNameVisible(true);
-            i1.setVisible(false);
+    public void startGens() {
+        ArmorStand i1 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Iron1"), EntityType.ARMOR_STAND);
+        i1.setGravity(false);
+        i1.setCanPickupItems(false);
+        i1.setInvulnerable(true);
+        i1.setCustomName(MessageUtils.color("&f&lIRON GEN"));
+        i1.setCustomNameVisible(true);
+        i1.setVisible(false);
+
         ArmorStand i2 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Iron2"), EntityType.ARMOR_STAND);
         i2.setGravity(false);
         i2.setCanPickupItems(false);
@@ -30,6 +32,7 @@ public class GeneratorManager {
         i2.setCustomName(MessageUtils.color("&f&lIRON GEN"));
         i2.setCustomNameVisible(true);
         i2.setVisible(false);
+
         ArmorStand i3 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Iron3"), EntityType.ARMOR_STAND);
         i3.setGravity(false);
         i3.setCanPickupItems(false);
@@ -85,6 +88,7 @@ public class GeneratorManager {
         em1.setCustomName(MessageUtils.color("&a&lEMERALD GEN"));
         em1.setCustomNameVisible(true);
         em1.setVisible(false);
+
         ArmorStand em2 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Em2"), EntityType.ARMOR_STAND);
         em2.setGravity(false);
         em2.setCanPickupItems(false);
@@ -92,55 +96,58 @@ public class GeneratorManager {
         em2.setCustomName(MessageUtils.color("&a&lEMERALD GEN"));
         em2.setCustomNameVisible(true);
         em2.setVisible(false);
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(main, () -> {
-                i1.getWorld().dropItemNaturally(i1.getLocation(), new ItemStack(Material.IRON_INGOT, 1));
-                i2.getWorld().dropItemNaturally(i2.getLocation(), new ItemStack(Material.IRON_INGOT, 1));
-                i3.getWorld().dropItemNaturally(i3.getLocation(), new ItemStack(Material.IRON_INGOT, 1));
-                i4.getWorld().dropItemNaturally(i4.getLocation(), new ItemStack(Material.IRON_INGOT, 1));
-            }, 0L, 40L);
-            Bukkit.getScheduler().runTaskLater(main, () -> {
-                MessageUtils.broadcast("&3&lBED&b&lWARS &8| &aThe Diamond generators are now active!");
-                MessageUtils.broadcast("&3&lBED&b&lWARS &8| &aThey will drop one Diamond every 30 seconds.");
-            }, 600L);
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(main, () -> {
+            i1.getWorld().dropItemNaturally(i1.getLocation(), new ItemStack(Material.IRON_INGOT, 1));
+            i2.getWorld().dropItemNaturally(i2.getLocation(), new ItemStack(Material.IRON_INGOT, 1));
+            i3.getWorld().dropItemNaturally(i3.getLocation(), new ItemStack(Material.IRON_INGOT, 1));
+            i4.getWorld().dropItemNaturally(i4.getLocation(), new ItemStack(Material.IRON_INGOT, 1));
+        }, 0L, 40L);
+
+        Bukkit.getScheduler().runTaskLater(main, () -> {
+            MessageUtils.broadcast("&3&lBED&b&lWARS &8| &aThe Diamond generators are now active!");
+            MessageUtils.broadcast("&3&lBED&b&lWARS &8| &aThey will drop one Diamond every 30 seconds.");
+        }, 600L);
+
         Bukkit.getScheduler().scheduleSyncRepeatingTask(main, () -> {
             dia1.getWorld().dropItemNaturally(dia1.getLocation(), new ItemStack(Material.DIAMOND, 1));
             dia2.getWorld().dropItemNaturally(dia2.getLocation(), new ItemStack(Material.DIAMOND, 1));
             dia3.getWorld().dropItemNaturally(dia3.getLocation(), new ItemStack(Material.DIAMOND, 1));
             dia4.getWorld().dropItemNaturally(dia4.getLocation(), new ItemStack(Material.DIAMOND, 1));
         }, 310L, 600L);
-            Bukkit.getScheduler().runTaskLater(main, () -> {
-                MessageUtils.broadcast("&3&lBED&b&lWARS &8| &aThe Emerald generators are now active!");
-                MessageUtils.broadcast("&3&lBED&b&lWARS &8| &aThey will drop one Emerald every minute.");
-                for(Player online: Bukkit.getOnlinePlayers()){
-                    online.playSound(online.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 10, 1);
-                    online.playSound(online.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, 2);
-                    online.playSound(online.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 3, 3);
-                }
-            }, 2400L);
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(main, () -> {
-                em1.getWorld().dropItemNaturally(em1.getLocation(), new ItemStack(Material.EMERALD, 1));
-                em2.getWorld().dropItemNaturally(em2.getLocation(), new ItemStack(Material.EMERALD, 1));
-            }, 2400L,  1200);
+
+        Bukkit.getScheduler().runTaskLater(main, () -> {
+            MessageUtils.broadcast("&3&lBED&b&lWARS &8| &aThe Emerald generators are now active!");
+            MessageUtils.broadcast("&3&lBED&b&lWARS &8| &aThey will drop one Emerald every minute.");
+            for (Player online : Bukkit.getOnlinePlayers()) {
+                online.playSound(online.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 10, 1);
+                online.playSound(online.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 5, 2);
+                online.playSound(online.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 3, 3);
+            }
+        }, 2400L);
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(main, () -> {
+            em1.getWorld().dropItemNaturally(em1.getLocation(), new ItemStack(Material.EMERALD, 1));
+            em2.getWorld().dropItemNaturally(em2.getLocation(), new ItemStack(Material.EMERALD, 1));
+        }, 2400L, 1200);
     }
 
-    public void killGens(){
-        for(Entity gens : Bukkit.getWorld("Boletum").getEntitiesByClasses(ArmorStand.class)){
+    public void killGens() {
+        for (Entity gens : Bukkit.getWorld("Boletum").getEntitiesByClasses(ArmorStand.class)) {
             gens.remove();
         }
-        for(Entity ores : Bukkit.getWorld("Boletum").getEntities()){
-            if(ores instanceof Item){
+        for (Entity ores : Bukkit.getWorld("Boletum").getEntities()) {
+            if (ores instanceof Item) {
                 ores.remove();
             }
         }
     }
 
-    public void createVillagers(){
+    public void createVillagers() {
         Villager is1 = (Villager) Bukkit.getWorld("Boletum").spawnEntity(null, EntityType.VILLAGER);
         is1.setSilent(true);
         is1.setCustomName("&3&lITEM SHOP");
         is1.setCustomNameVisible(true);
         is1.setVillagerType(Villager.Type.PLAINS);
-
     }
-
 }
