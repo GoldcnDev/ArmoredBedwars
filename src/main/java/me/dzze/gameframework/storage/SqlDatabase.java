@@ -1,6 +1,4 @@
-package me.dzze.gameframework.database;
-
-import me.dzze.gameframework.Main;
+package me.dzze.gameframework.storage;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,16 +7,10 @@ import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 
-public class DatabaseGetter {
-
-    private Main plugin;
-
-    public DatabaseGetter(Main plugin) {
-        this.plugin = plugin;
-    }
-
-    public void createTable() {
-        try (final PreparedStatement statement = this.plugin.db.getConnection()
+public class SqlDatabase extends AbstractSqlDatabase {
+    public void createTables() {
+        try (final PreparedStatement statement = this
+                .getConnection()
                 .prepareStatement("CREATE TABLE IF NOT EXISTS points (NAME VARCHAR(100),UUID VARCHAR(100),POINTS INT(100),PRIMARY KEY (NAME))")) {
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -29,7 +21,8 @@ public class DatabaseGetter {
     public CompletableFuture<Void> createPlayer(String name, UUID uuid) {
         return CompletableFuture.runAsync(() -> {
             if (!this.exists(uuid).join()) {
-                try (final PreparedStatement statement = this.plugin.db.getConnection().prepareStatement("INSERT IGNORE INTO points (NAME,UUID) VALUES (?,?)")) {
+                try (final PreparedStatement statement = this
+                        .getConnection().prepareStatement("INSERT IGNORE INTO points (NAME,UUID) VALUES (?,?)")) {
                     statement.setString(1, name);
                     statement.setString(2, uuid.toString());
                     statement.executeUpdate();
@@ -42,7 +35,8 @@ public class DatabaseGetter {
 
     public CompletableFuture<Boolean> exists(UUID uuid) {
         return this.makeFuture(() -> {
-            try (final PreparedStatement statement = this.plugin.db.getConnection().prepareStatement("SELECT * FROM points WHERE UUID=?")) {
+            try (final PreparedStatement statement = this
+                    .getConnection().prepareStatement("SELECT * FROM points WHERE UUID=?")) {
                 statement.setString(1, uuid.toString());
                 try (final ResultSet result = statement.executeQuery()) {
                     return result.next();
@@ -60,7 +54,8 @@ public class DatabaseGetter {
 
     public CompletableFuture<Void> setPoints(UUID uuid, int points) {
         return CompletableFuture.runAsync(() -> {
-            try (final PreparedStatement statement = this.plugin.db.getConnection().prepareStatement("UPDATE points SET POINTS=? WHERE UUID=?")) {
+            try (final PreparedStatement statement = this
+                    .getConnection().prepareStatement("UPDATE points SET POINTS=? WHERE UUID=?")) {
                 statement.setInt(1, points);
                 statement.setString(2, uuid.toString());
                 statement.executeUpdate();
@@ -72,7 +67,8 @@ public class DatabaseGetter {
 
     public CompletableFuture<Void> resetPoints(UUID uuid) {
         return CompletableFuture.runAsync(() -> {
-            try (final PreparedStatement statement = this.plugin.db.getConnection().prepareStatement("UPDATE points SET POINTS=? WHERE UUID=?")) {
+            try (final PreparedStatement statement = this
+                    .getConnection().prepareStatement("UPDATE points SET POINTS=? WHERE UUID=?")) {
                 statement.setInt(1, 0);
                 statement.setString(2, uuid.toString());
                 statement.executeUpdate();
@@ -84,7 +80,8 @@ public class DatabaseGetter {
 
     public CompletableFuture<Integer> getPoints(UUID uuid) {
         return this.makeFuture(() -> {
-            try (final PreparedStatement statement = this.plugin.db.getConnection().prepareStatement("SELECT POINTS FROM points WHERE UUID=?")) {
+            try (final PreparedStatement statement = this
+                    .getConnection().prepareStatement("SELECT POINTS FROM points WHERE UUID=?")) {
                 statement.setString(1, uuid.toString());
                 try (final ResultSet result = statement.executeQuery()) {
                     if (result.next()) {
@@ -98,7 +95,8 @@ public class DatabaseGetter {
 
     public CompletableFuture<Void> emptyTable() {
         return CompletableFuture.runAsync(() -> {
-            try (final PreparedStatement statement = this.plugin.db.getConnection().prepareStatement("TRUNCATE points")) {
+            try (final PreparedStatement statement = this
+                    .getConnection().prepareStatement("TRUNCATE points")) {
                 statement.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -108,7 +106,8 @@ public class DatabaseGetter {
 
     public CompletableFuture<Void> removeTable(UUID uuid) {
         return CompletableFuture.runAsync(() -> {
-            try (final PreparedStatement statement = this.plugin.db.getConnection().prepareStatement("DELETE FROM points WHERE UUID=?")) {
+            try (final PreparedStatement statement = this
+                    .getConnection().prepareStatement("DELETE FROM points WHERE UUID=?")) {
                 statement.setString(1, uuid.toString());
                 statement.executeUpdate();
             } catch (SQLException e) {

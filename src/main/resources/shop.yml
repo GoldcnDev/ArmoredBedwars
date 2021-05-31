@@ -1,0 +1,8 @@
+title: "&aShop"
+rows: 3
+items:
+  0:
+    material: Diamond
+    amount: 1
+    actions:
+      - 'command:say Hello, world!'

@@ -20,8 +20,6 @@ public class CompassListener implements Listener {
                 Player player = e.getPlayer();
                 MessageUtils.message(player, "&aThis compass currently does nothing.");
             }
-
-
         }
     }
 }

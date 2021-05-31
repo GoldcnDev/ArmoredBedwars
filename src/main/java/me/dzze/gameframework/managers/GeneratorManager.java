@@ -17,7 +17,7 @@ public class GeneratorManager {
     }
 
     public void startGens() {
-        ArmorStand i1 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Iron1"), EntityType.ARMOR_STAND);
+        ArmorStand i1 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Iron.1"), EntityType.ARMOR_STAND);
         i1.setGravity(false);
         i1.setCanPickupItems(false);
         i1.setInvulnerable(true);
@@ -25,7 +25,7 @@ public class GeneratorManager {
         i1.setCustomNameVisible(true);
         i1.setVisible(false);
 
-        ArmorStand i2 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Iron2"), EntityType.ARMOR_STAND);
+        ArmorStand i2 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Iron.2"), EntityType.ARMOR_STAND);
         i2.setGravity(false);
         i2.setCanPickupItems(false);
         i2.setInvulnerable(true);
@@ -33,7 +33,7 @@ public class GeneratorManager {
         i2.setCustomNameVisible(true);
         i2.setVisible(false);
 
-        ArmorStand i3 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Iron3"), EntityType.ARMOR_STAND);
+        ArmorStand i3 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Iron.3"), EntityType.ARMOR_STAND);
         i3.setGravity(false);
         i3.setCanPickupItems(false);
         i3.setInvulnerable(true);
@@ -41,7 +41,7 @@ public class GeneratorManager {
         i3.setCustomNameVisible(true);
         i3.setVisible(false);
 
-        ArmorStand i4 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Iron4"), EntityType.ARMOR_STAND);
+        ArmorStand i4 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Iron.4"), EntityType.ARMOR_STAND);
         i4.setGravity(false);
         i4.setCanPickupItems(false);
         i4.setInvulnerable(true);
@@ -49,7 +49,7 @@ public class GeneratorManager {
         i4.setCustomNameVisible(true);
         i4.setVisible(false);
 
-        ArmorStand dia1 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Dia1"), EntityType.ARMOR_STAND);
+        ArmorStand dia1 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Dia.1"), EntityType.ARMOR_STAND);
         dia1.setGravity(false);
         dia1.setCanPickupItems(false);
         dia1.setInvulnerable(true);
@@ -57,7 +57,7 @@ public class GeneratorManager {
         dia1.setCustomNameVisible(true);
         dia1.setVisible(false);
 
-        ArmorStand dia2 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Dia2"), EntityType.ARMOR_STAND);
+        ArmorStand dia2 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Dia.2"), EntityType.ARMOR_STAND);
         dia2.setGravity(false);
         dia2.setCanPickupItems(false);
         dia2.setInvulnerable(true);
@@ -65,7 +65,7 @@ public class GeneratorManager {
         dia2.setCustomNameVisible(true);
         dia2.setVisible(false);
 
-        ArmorStand dia3 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Dia3"), EntityType.ARMOR_STAND);
+        ArmorStand dia3 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Dia.3"), EntityType.ARMOR_STAND);
         dia3.setGravity(false);
         dia3.setCanPickupItems(false);
         dia3.setInvulnerable(true);
@@ -73,7 +73,7 @@ public class GeneratorManager {
         dia3.setCustomNameVisible(true);
         dia3.setVisible(false);
 
-        ArmorStand dia4 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Dia4"), EntityType.ARMOR_STAND);
+        ArmorStand dia4 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Dia.4"), EntityType.ARMOR_STAND);
         dia4.setGravity(false);
         dia4.setCanPickupItems(false);
         dia4.setInvulnerable(true);
@@ -81,7 +81,7 @@ public class GeneratorManager {
         dia4.setCustomNameVisible(true);
         dia4.setVisible(false);
 
-        ArmorStand em1 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Em1"), EntityType.ARMOR_STAND);
+        ArmorStand em1 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Em.1"), EntityType.ARMOR_STAND);
         em1.setGravity(false);
         em1.setCanPickupItems(false);
         em1.setInvulnerable(true);
@@ -89,7 +89,7 @@ public class GeneratorManager {
         em1.setCustomNameVisible(true);
         em1.setVisible(false);
 
-        ArmorStand em2 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Em2"), EntityType.ARMOR_STAND);
+        ArmorStand em2 = (ArmorStand) Bukkit.getWorld("Boletum").spawnEntity(main.getConfig().getLocation("Em.2"), EntityType.ARMOR_STAND);
         em2.setGravity(false);
         em2.setCanPickupItems(false);
         em2.setInvulnerable(true);

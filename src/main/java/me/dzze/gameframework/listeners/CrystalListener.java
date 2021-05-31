@@ -6,9 +6,7 @@ import me.dzze.gameframework.commands.SetCrystalPurple;
 import me.dzze.gameframework.commands.SetCrystalRed;
 import me.dzze.gameframework.commands.SetCrystalWhite;
 import me.dzze.gameframework.managers.GameManager;
-import me.dzze.gameframework.managers.TeamManager;
 import me.dzze.gameframework.utils.MessageUtils;
-import me.dzze.gameframework.utils.Teams;
 import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -19,9 +17,9 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import java.util.concurrent.TimeUnit;
 
 public class CrystalListener implements Listener {
-
     Main main;
-    public CrystalListener(Main main){
+
+    public CrystalListener(Main main) {
         this.main = main;
     }
 
@@ -35,31 +33,30 @@ public class CrystalListener implements Listener {
                 MessageUtils.message(player, "&cYou cannot break upgrade crystals yet! Time remaining: " + TimeUnit.MILLISECONDS.toSeconds(TimeUnit.MINUTES.toMillis(3L) - elapsedMillis) + " seconds");
                 e.setCancelled(true);
             }
-            if(SetCrystalBlue.isSetting.contains(player)){
+            if (SetCrystalBlue.isSetting.contains(player)) {
                 main.getConfig().set("CrystalBlue", e.getEntity().getLocation());
                 e.setCancelled(true);
                 SetCrystalBlue.isSetting.remove(player);
                 MessageUtils.message(player, "&bSet the location of the crystal.");
             }
-            if(SetCrystalRed.isSetting.contains(player)){
+            if (SetCrystalRed.isSetting.contains(player)) {
                 main.getConfig().set("CrystalRed", e.getEntity().getLocation());
                 e.setCancelled(true);
                 SetCrystalRed.isSetting.remove(player);
                 MessageUtils.message(player, "&bSet the location of the crystal.");
             }
-            if(SetCrystalWhite.isSetting.contains(player)){
+            if (SetCrystalWhite.isSetting.contains(player)) {
                 main.getConfig().set("CrystalWhite", e.getEntity().getLocation());
                 e.setCancelled(true);
                 SetCrystalWhite.isSetting.remove(player);
                 MessageUtils.message(player, "&bSet the location of the crystal.");
             }
-            if(SetCrystalPurple.isSetting.contains(player)){
+            if (SetCrystalPurple.isSetting.contains(player)) {
                 main.getConfig().set("CrystalPurple", e.getEntity().getLocation());
                 e.setCancelled(true);
                 SetCrystalPurple.isSetting.remove(player);
                 MessageUtils.message(player, "&bSet the location of the crystal.");
             }
         }
-
     }
 }

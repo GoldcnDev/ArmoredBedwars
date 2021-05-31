@@ -64,11 +64,6 @@ public class ChatListener extends SpecManager implements Listener {
                     online.spigot().sendMessage(whiteChat);
                 }
             }
-
-
         }
-
-
     }
-
 }

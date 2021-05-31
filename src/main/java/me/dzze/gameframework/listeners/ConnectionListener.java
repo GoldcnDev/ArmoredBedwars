@@ -5,6 +5,7 @@ import me.dzze.gameframework.commands.ForceStartCommand;
 import me.dzze.gameframework.managers.GameManager;
 import me.dzze.gameframework.managers.SpecManager;
 import me.dzze.gameframework.utils.MessageUtils;
+import me.dzze.gameframework.utils.ScoreboardUtils;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -34,8 +35,8 @@ public class ConnectionListener extends SpecManager implements Listener {
     @EventHandler
     public void on(AsyncPlayerPreLoginEvent e) {
         final UUID uuid = e.getUniqueId();
-        if (!plugin.data.exists(uuid).join()) {
-            plugin.data.createPlayer(e.getName(), uuid).join();
+        if (!this.plugin.getDatabase().exists(uuid).join()) {
+            this.plugin.getDatabase().createPlayer(e.getName(), uuid).join();
         }
         // Any reason for this? I'm not following...
         // plugin.data.getPoints(e.getUniqueId()).join();
@@ -53,6 +54,8 @@ public class ConnectionListener extends SpecManager implements Listener {
             p.getInventory().clear();
             onlineCount++;
             e.setJoinMessage(MessageUtils.color(newname.trim() + " &dwants to sleep! &6(&f" + onlineCount + "&6/&f12&6)"));
+            MessageUtils.message(p, "&aCurrent map: " + GameManager.currentMap.getName());
+
             //p.teleport(Bukkit.getWorld("spawn").getSpawnLocation());
             for (Player online : Bukkit.getOnlinePlayers()) {
                 online.removePotionEffect(PotionEffectType.JUMP);
@@ -67,7 +70,7 @@ public class ConnectionListener extends SpecManager implements Listener {
                  online.spigot().sendMessage(archaic);
                  online.spigot().sendMessage(trainland);
                  **/
-                plugin.createBoard(online);
+                ScoreboardUtils.createBoard(online);
             }
             if (onlineCount < 4) {
                 Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
@@ -113,7 +116,7 @@ public class ConnectionListener extends SpecManager implements Listener {
             p.setAllowFlight(true);
             p.setFlying(true);
             giveSpecItem(p);
-            for(Player online: Bukkit.getOnlinePlayers()){
+            for (Player online : Bukkit.getOnlinePlayers()) {
                 online.hidePlayer(plugin, p);
             }
         }

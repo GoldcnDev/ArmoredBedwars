@@ -1,4 +1,4 @@
-package me.dzze.gameframework.database;
+package me.dzze.gameframework.storage;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -6,7 +6,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class Database {
+public abstract class AbstractSqlDatabase {
     private static final String DRIVER_CLASS = "com.mysql.jdbc.Driver";
 
     private static final String HOST = "168.119.37.243";
@@ -18,7 +18,7 @@ public class Database {
     private final HikariConfig config = new HikariConfig();
     private HikariDataSource source;
 
-    public Database() {
+    public AbstractSqlDatabase() {
         this.config.setJdbcUrl("jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE);
         this.config.setDriverClassName(DRIVER_CLASS);
         this.config.setPoolName("bedwars-hikari");

@@ -1,124 +1,136 @@
 package me.dzze.gameframework;
 
 import me.dzze.gameframework.commands.*;
-import me.dzze.gameframework.database.Database;
-import me.dzze.gameframework.database.DatabaseGetter;
 import me.dzze.gameframework.listeners.*;
+import me.dzze.gameframework.managers.GameManager;
 import me.dzze.gameframework.managers.GeneratorManager;
+import me.dzze.gameframework.managers.MapManager;
 import me.dzze.gameframework.managers.TeamManager;
-import me.dzze.gameframework.utils.MessageUtils;
-import me.dzze.gameframework.utils.Teams;
+import me.dzze.gameframework.storage.SqlDatabase;
+import me.dzze.gameframework.ui.ShopUiLoader;
+import me.dzze.gameframework.utils.ScoreboardUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.*;
 
 public class Main extends JavaPlugin {
-
     private static Main instance;
-    public Database db;
-    public DatabaseGetter data;
-    BWCommand BWCommand;
+
+    public static Main getInstance() {
+        return instance;
+    }
+
+    private SqlDatabase database;
+    public ShopUiLoader shopUi;
+
+    private MapManager mapManager;
 
     @Override
     public void onEnable() {
         this.saveDefaultConfig();
-        this.db = new Database();
-        this.data = new DatabaseGetter(this);
-        this.BWCommand = new BWCommand();
-        instance = this;
-        db.connect();
-        Bukkit.getPluginManager().registerEvents(new ConnectionListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new RespawnListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new ChatListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new CompassListener(), this);
-        Bukkit.getPluginManager().registerEvents(new TeamManager(), this);
-        Bukkit.getPluginManager().registerEvents(new BedListener(this), this);
-        Bukkit.getPluginManager().registerEvents(new CrystalListener(this), this);
+        this.initStorage();
+        this.initCommands();
+        this.initListeners();
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-        this.getCommand("connect").setExecutor(new ConnectCommand());
-        Bukkit.getPluginCommand("bedwars").setExecutor(BWCommand);
-        Bukkit.getPluginCommand("setpoints").setExecutor(new SetPointsCommand(this));
-        Bukkit.getPluginCommand("resetpoints").setExecutor(new SetPointsCommand(this));
-        BWCommand.registerSubCommand(new SetSpawnFiveCommand(this));
-        BWCommand.registerSubCommand(new SetSpawnFourCommand(this));
-        BWCommand.registerSubCommand(new SetSpawnThreeCommand(this));
-        BWCommand.registerSubCommand(new SetSpawnTwoCommand(this));
-        BWCommand.registerSubCommand(new ForceStartCommand(this, new GeneratorManager(this)));
-        BWCommand.registerSubCommand(new ForceStopCommand(this));
-        BWCommand.registerSubCommand(new SetSpawnOneCommand(this));
-        BWCommand.registerSubCommand(new SetIronOne(this));
-        BWCommand.registerSubCommand(new SetIronTwo(this));
-        BWCommand.registerSubCommand(new SetIronThree(this));
-        BWCommand.registerSubCommand(new SetIronFour(this));
-        BWCommand.registerSubCommand(new SetEm1(this));
-        BWCommand.registerSubCommand(new SetEm2(this));
-        BWCommand.registerSubCommand(new SetBedBlue(this));
-        BWCommand.registerSubCommand(new SetBedPurple(this));
-        BWCommand.registerSubCommand(new SetBedRed(this));
-        BWCommand.registerSubCommand(new SetBedWhite(this));
-        BWCommand.registerSubCommand(new SetDia1(this));
-        BWCommand.registerSubCommand(new SetDia2(this));
-        BWCommand.registerSubCommand(new SetDia3(this));
-        BWCommand.registerSubCommand(new SetDia4(this));
-        BWCommand.registerSubCommand(new SetCrystalBlue(this));
-        BWCommand.registerSubCommand(new SetCrystalRed(this));
-        BWCommand.registerSubCommand(new SetCrystalWhite(this));
-        BWCommand.registerSubCommand(new SetCrystalPurple(this));
-        // Bukkit.getPluginCommand("connect").setExecutor(new ConnectCommand());
-        for (Player online : Bukkit.getOnlinePlayers()) {
-            createBoard(online);
-        }
+        instance = this;
 
-        if (db.isConnected()) {
-            Bukkit.getLogger().info("Database is connected.");
-            data.createTable();
+
+        // START SHOP STUFF
+
+        this.shopUi = new ShopUiLoader(this.getDataFolder().toPath().resolve("shop.yml"));
+        Bukkit.getPluginManager().registerEvents(this.shopUi, this);
+        this.shopUi.load();
+
+
+        // END SHOP STUFF
+
+        this.mapManager = new MapManager(this);
+        GameManager.currentMap = this.mapManager.nextMap();
+
+        for (Player online : Bukkit.getOnlinePlayers()) {
+            ScoreboardUtils.createBoard(online);
         }
     }
 
     @Override
     public void onDisable() {
-        db.disconnect();
+        this.mapManager.deleteAndUnloadCurrentMap();
+        this.database.disconnect();
     }
 
-    public void createBoard(Player player) {
-        ScoreboardManager manager = Bukkit.getScoreboardManager();
-        Scoreboard sb = manager.getNewScoreboard();
-        Objective obj = sb.registerNewObjective("First", "dummy", MessageUtils.color("&3&lBED&b&lWARS"));
-        obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-        //  Score score2 = obj.getScore(MessageUtils.color("&a&lPoints &8&l» &e" +
-        //        this.data.getPoints(player.getUniqueId())));
-        // score2.setScore(2);
-        if (TeamManager.getTeam(player) == Teams.BLUE) {
-            Score score3 = obj.getScore(MessageUtils.color("&3&lTeam &8&l» &r" +
-                    "&9&lBLUE"));
-            score3.setScore(3);
+    private void initStorage() {
+        this.database = new SqlDatabase();
+        this.database.connect();
+
+        if (this.database.isConnected()) {
+            Bukkit.getLogger().info("Database is connected.");
+            this.database.createTables();
         }
-        if (TeamManager.getTeam(player) == Teams.RED) {
-            Score score3 = obj.getScore(MessageUtils.color("&3&lTeam &8&l» &r" +
-                    "&c&lRED"));
-            score3.setScore(3);
-        }
-        if (TeamManager.getTeam(player) == Teams.WHITE) {
-            Score score3 = obj.getScore(MessageUtils.color("&3&lTeam &8&l» &r" +
-                    "&f&lWHITE"));
-            score3.setScore(3);
-        }
-        if (TeamManager.getTeam(player) == Teams.PURPLE) {
-            Score score3 = obj.getScore(MessageUtils.color("&3&lTeam &8&l» &r" +
-                    "&5&lPURPLE"));
-            score3.setScore(3);
-        }
-        //Score score3 = obj.getScore(MessageUtils.color("&c&lKills &8&l» &e" +
-        //      PlayerKillListener.kills.get(player)));
-        //if(PlayerKillListener.kills.get(player) == null || !PlayerKillListener.kills.containsKey(player)){
-        //  PlayerKillListener.kills.putIfAbsent(player, 0);
-        //}
-        // score3.setScore(3);
-        player.setScoreboard(sb);
     }
 
-    public static Main getInstance() {
-        return instance;
+    private void initCommands() {
+        final PluginCommand bedWarsCommand = this.getCommand("bedwars");
+        if (bedWarsCommand != null) {
+            final BWCommand bwCommand = new BWCommand();
+            bedWarsCommand.setExecutor(bwCommand);
+
+            // Sub commands:
+
+            bwCommand.registerSubCommand(new SetDiamondCommand());
+            bwCommand.registerSubCommand(new SetSpawnCommand());
+            bwCommand.registerSubCommand(new SetIronCommand());
+            bwCommand.registerSubCommand(new SetEmCommand());
+            bwCommand.registerSubCommand(new ForceNextMapCommand());
+
+            bwCommand.registerSubCommand(new ForceStartCommand(this, new GeneratorManager(this)));
+            bwCommand.registerSubCommand(new ForceStopCommand(this));
+            bwCommand.registerSubCommand(new SetBedBlue(this));
+            bwCommand.registerSubCommand(new SetBedPurple(this));
+            bwCommand.registerSubCommand(new SetBedRed(this));
+            bwCommand.registerSubCommand(new SetBedWhite(this));
+            bwCommand.registerSubCommand(new SetCrystalBlue(this));
+            bwCommand.registerSubCommand(new SetCrystalRed(this));
+            bwCommand.registerSubCommand(new SetCrystalWhite(this));
+            bwCommand.registerSubCommand(new SetCrystalPurple(this));
+
+            // SHOP COMMAND
+            bwCommand.registerSubCommand(new ShopCommand());
+        }
+
+        final PluginCommand connectCommand = this.getCommand("connect");
+        if (connectCommand != null) {
+            connectCommand.setExecutor(new ConnectCommand());
+        }
+
+        final PluginCommand resetPointsCommand = this.getCommand("resetpoints");
+        if (resetPointsCommand != null) {
+            resetPointsCommand.setExecutor(new SetPointsCommand(this));
+        }
+
+        final PluginCommand setPointsCommand = this.getCommand("setpoints");
+        if (setPointsCommand != null) {
+            setPointsCommand.setExecutor(new SetPointsCommand(this));
+        }
+    }
+
+    private void initListeners() {
+        final PluginManager pluginManager = this.getServer().getPluginManager();
+        pluginManager.registerEvents(new ConnectionListener(this), this);
+        pluginManager.registerEvents(new RespawnListener(this), this);
+        pluginManager.registerEvents(new ChatListener(this), this);
+        pluginManager.registerEvents(new CompassListener(), this);
+        pluginManager.registerEvents(new TeamManager(), this);
+        pluginManager.registerEvents(new BedListener(this), this);
+        pluginManager.registerEvents(new CrystalListener(this), this);
+    }
+
+    public MapManager getMapManager() {
+        return this.mapManager;
+    }
+
+    public SqlDatabase getDatabase() {
+        return this.database;
     }
 }

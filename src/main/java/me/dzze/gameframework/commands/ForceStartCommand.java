@@ -5,15 +5,19 @@ import me.dzze.gameframework.managers.GameManager;
 import me.dzze.gameframework.managers.GeneratorManager;
 import me.dzze.gameframework.managers.TeamManager;
 import me.dzze.gameframework.utils.MessageUtils;
+import me.dzze.gameframework.utils.ScoreboardUtils;
 import me.dzze.gameframework.utils.Teams;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
-import java.util.Random;
+import java.util.Objects;
 
 
 public class ForceStartCommand implements SubCommand {
@@ -33,12 +37,19 @@ public class ForceStartCommand implements SubCommand {
     public void execute(CommandSender sender, String label, String[] args) {
         MessageUtils.message(sender, "&3&lBED&b&lWARS &8| &aStarted by an administrator.");
         Bukkit.getWorld("Boletum").setAutoSave(false);
+        int teamNum = 1;
         for (Player players : Bukkit.getOnlinePlayers()) {
-            Random random = new Random();
+            team.put(players, teamNum);
+            if (teamNum == 4) {
+                teamNum = 1;
+            } else {
+                teamNum++;
+            }
+            /*Random random = new Random();
             int r = random.nextInt(4 - 1 + 1) + 1;
-            team.put(players, r);
+            team.put(players, r);*/
             TeamManager.setTeam(players);
-            main.createBoard(players);
+            ScoreboardUtils.createBoard(players);
             GameManager.gameRunning = true;
             GameManager.setStartTime(System.currentTimeMillis());
             Bukkit.getWorld("Boletum").setAutoSave(false);
@@ -84,23 +95,19 @@ public class ForceStartCommand implements SubCommand {
              } **/
 
             if (TeamManager.getTeam(players) == Teams.BLUE) {
-                players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn1.world")), main.getConfig().getDouble("Spawn1.x"),
-                        main.getConfig().getDouble("Spawn1.y"), main.getConfig().getDouble("Spawn1.z")));
+                players.teleport(Objects.requireNonNull(this.main.getConfig().getLocation("Spawn.1")));
             }
 
             if (TeamManager.getTeam(players) == Teams.RED) {
-                players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn2.world")), main.getConfig().getDouble("Spawn2.x"),
-                        main.getConfig().getDouble("Spawn2.y"), main.getConfig().getDouble("Spawn2.z")));
+                players.teleport(Objects.requireNonNull(this.main.getConfig().getLocation("Spawn.2")));
             }
 
             if (TeamManager.getTeam(players) == Teams.WHITE) {
-                players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn3.world")), main.getConfig().getDouble("Spawn3.x"),
-                        main.getConfig().getDouble("Spawn3.y"), main.getConfig().getDouble("Spawn3.z")));
+                players.teleport(Objects.requireNonNull(this.main.getConfig().getLocation("Spawn.3")));
             }
 
             if (TeamManager.getTeam(players) == Teams.PURPLE) {
-                players.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("Spawn4.world")), main.getConfig().getDouble("Spawn4.x"),
-                        main.getConfig().getDouble("Spawn4.y"), main.getConfig().getDouble("Spawn4.z")));
+                players.teleport(Objects.requireNonNull(this.main.getConfig().getLocation("Spawn.4")));
 
             }
             gm.killGens();

@@ -1,4 +1,4 @@
-package me.dzze.gameframework.listeners;
+package me.dzze.gameframework.utils;
 
 import me.dzze.gameframework.Main;
 import org.bukkit.entity.Player;
@@ -7,8 +7,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class BungeeListener {
-    public void connect(Player player, String server) {
+public class PluginMessenger {
+    public static void connect(Player player, String server) {
         try (final ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream()) {
             try (final DataOutputStream outputStream = new DataOutputStream(byteOutputStream)) {
                 outputStream.writeUTF("Connect");

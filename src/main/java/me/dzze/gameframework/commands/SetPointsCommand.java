@@ -30,7 +30,7 @@ public class SetPointsCommand implements CommandExecutor {
                 if (args.length == 1) {
                     try {
                         final int points = Integer.parseInt(args[0]);
-                        plugin.data.addPoints(p.getUniqueId(), points).whenComplete((v, err) ->
+                        this.plugin.getDatabase().addPoints(p.getUniqueId(), points).whenComplete((v, err) ->
                                 MessageUtils.message(p, "&aSet your points to &e" + points)
                         );
                     } catch (NumberFormatException ignored) {
@@ -44,7 +44,7 @@ public class SetPointsCommand implements CommandExecutor {
                     } else {
                         try {
                             final int points = Integer.parseInt(args[1]);
-                            plugin.data.addPoints(target.getUniqueId(), points).whenComplete((v, err) ->
+                            this.plugin.getDatabase().addPoints(target.getUniqueId(), points).whenComplete((v, err) ->
                                     MessageUtils.message(p, "&aSet &e" + target.getName() + "&a's points to &e" + points)
                             );
                         } catch (NumberFormatException ignored) {
@@ -61,13 +61,25 @@ public class SetPointsCommand implements CommandExecutor {
                 MessageUtils.message(p, "&4No permission.");
             } else {
                 if (args.length == 0) {
-                    plugin.data.resetPoints(p.getUniqueId());
-                    MessageUtils.message(p, "&aSet your points to &e0");
+                    this.plugin.getDatabase().resetPoints(p.getUniqueId()).whenComplete((v, err) -> {
+                        if (err == null) {
+                            MessageUtils.message(p, "&aSet your points to &e0");
+                        } else {
+                            MessageUtils.message(p, "&cAn error occurred resetting your points!");
+                            err.printStackTrace();
+                        }
+                    });
                 }
                 if (args.length == 1) {
                     Player target = Bukkit.getPlayer(args[0]);
-                    plugin.data.resetPoints(target.getUniqueId());
-                    MessageUtils.message(p, "&aSet &e" + target.getName() + "&a's points to &e0");
+                    this.plugin.getDatabase().resetPoints(target.getUniqueId()).whenComplete((v, err) -> {
+                        if (err == null) {
+                            MessageUtils.message(p, "&aSet &e" + target.getName() + "&a's points to &e0");
+                        } else {
+                            MessageUtils.message(p, "&cAn error occurred resetting &e" + target.getName() + "&c's points!");
+                            err.printStackTrace();
+                        }
+                    });
                 }
 
             }
