@@ -15,23 +15,19 @@ public class ScoreboardUtils {
         //        this.data.getPoints(player.getUniqueId())));
         // score2.setScore(2);
         if (TeamManager.getTeam(player) == Teams.BLUE) {
-            Score score3 = obj.getScore(MessageUtils.color("&3&lTeam &8&l» &r" +
-                    "&9&lBLUE"));
+            Score score3 = obj.getScore(MessageUtils.color("&3&lTeam &8&l\u00BB &r&9&lBLUE"));
             score3.setScore(3);
         }
         if (TeamManager.getTeam(player) == Teams.RED) {
-            Score score3 = obj.getScore(MessageUtils.color("&3&lTeam &8&l» &r" +
-                    "&c&lRED"));
+            Score score3 = obj.getScore(MessageUtils.color("&3&lTeam &8&l\u00BB &r&c&lRED"));
             score3.setScore(3);
         }
         if (TeamManager.getTeam(player) == Teams.WHITE) {
-            Score score3 = obj.getScore(MessageUtils.color("&3&lTeam &8&l» &r" +
-                    "&f&lWHITE"));
+            Score score3 = obj.getScore(MessageUtils.color("&3&lTeam &8&l\u00BB &r&f&lWHITE"));
             score3.setScore(3);
         }
         if (TeamManager.getTeam(player) == Teams.PURPLE) {
-            Score score3 = obj.getScore(MessageUtils.color("&3&lTeam &8&l» &r" +
-                    "&5&lPURPLE"));
+            Score score3 = obj.getScore(MessageUtils.color("&3&lTeam &8&l\u00BB &r&5&lPURPLE"));
             score3.setScore(3);
         }
         //Score score3 = obj.getScore(MessageUtils.color("&c&lKills &8&l» &e" +

@@ -59,7 +59,7 @@ public abstract class AbstractUiLoader implements Listener {
 
         final ConfigurationSection slots = this.configuration.getConfigurationSection("items");
         if (slots != null) {
-            for (String slot : slots.getKeys(true)) {
+            for (String slot : slots.getKeys(false)) {
                 try {
                     final int slotNum = Integer.parseInt(slot);
                     final String materialName = slots.getString(slot + ".material");
