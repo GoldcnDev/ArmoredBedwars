@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 public class ShopCommand implements SubCommand {
     @Override
     public void execute(CommandSender sender, String label, String[] args) {
-        ((Player) sender).openInventory(Main.getInstance().shopUi.buildInventory());
+        ((Player) sender).openInventory(Main.getInstance().shopUI.buildInventory());
     }
 
     @Override
